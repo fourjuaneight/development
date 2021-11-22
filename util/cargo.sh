@@ -17,7 +17,6 @@ cargo install cargo-cache \
   git-cliff \
   git-delta \
   ripgrep \
-  ripgrep_all \
   sheldon \
   starship \
   stdrename \
