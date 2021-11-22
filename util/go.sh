@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 echo 'export GOPATH=$HOME/go' >> .bashrc
+echo 'export GOPATH=$HOME/go' >> .profile
 echo 'export PATH=$PATH:$GOPATH/bin' >> .bashrc
+echo 'export PATH=$PATH:$GOPATH/bin' >> .profile
 
 echo "installing go binaries"
 for pkg in $(bat -p go-packages.txt); do
