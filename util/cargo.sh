@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> .bashrc
-
 echo "installing rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> .bashrc
+source $HOME/.cargo/env
 rustup toolchain install nightly --allow-downgrade --profile minimal --component clippy
 
 echo "installing rust binaries"
