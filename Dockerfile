@@ -1,5 +1,9 @@
 FROM ubuntu:20.04
 
+# Setup environment
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=US
+
 # Get the necessary build tools
 RUN apt-get update && apt-get install -y \
     build-essential \
