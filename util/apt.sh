@@ -7,14 +7,12 @@ apt-get dist-upgrade -f
 apt-get autoremove -y
 
 echo "installing dependencies"
-apt-get install -y bash \
-  build-essential \
+apt-get install -y \
   ca-certificates \
   certbot \
   clang \
   cmake \
   coreutils \
-  curl \
   findutils \
   font-manager \
   fontconfig \
@@ -26,7 +24,6 @@ apt-get install -y bash \
   golang-go \
   gpg \
   graphicsmagick \
-  id3v2 \
   imagemagick \
   indent \
   indicator-multiload \
@@ -46,11 +43,9 @@ apt-get install -y bash \
   libvips \
   lsb-release \
   libvips-dev \
-  mc \
   mediainfo \
   memcached \
   mercurial \
-  mkvtoolnix \
   mmv \
   mosh \
   ncdu \
@@ -69,17 +64,14 @@ apt-get install -y bash \
   rsync \
   sed \
   silversearcher-ag \
-  stow \
   tar \
   tmux \
   tree \
   unrar \
   vim \
-  virtualenv \
   wget \
   xz-utils \
-  zfsutils-linux \
-  zsh
+  zfsutils-linux
 
 echo "cleaning up"
 apt-get autoclean -y

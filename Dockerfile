@@ -5,11 +5,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=US
 
 # Get the necessary build tools
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    bash \
     build-essential \
     curl \
     libssl-dev \
-    libffi-dev
+    libffi-dev \
+    stow \
+    zsh
 
 # Move utility scripts
 WORKDIR /
