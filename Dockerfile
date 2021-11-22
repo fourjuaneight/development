@@ -7,29 +7,30 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libffi-dev
 
-# Set util scripts to be executable
-RUN chmod +x ./utils/*.sh
+# Move utility scripts
+WORKDIR /
+COPY util ./
 
 # Install apt binaries
-RUN ./utils/apt.sh
+RUN bash apt.sh
 
 # Install brew binaries
-RUN ./utils/brew.sh
+RUN bash brew.sh
 
 # Setup the environment
-RUN ./utils/setup.sh
+RUN bash setup.sh
 
 # Install custom fonts
-RUN ./utils/fonts.sh
+RUN bash fonts.sh
 
 # Install rust crates
-RUN ./utils/cargo.sh
+RUN bash cargo.sh
 
 # Install go binaries
-RUN ./utils/go.sh
+RUN bash go.sh
 
 # Install npm packages
-RUN ./utils/npm.sh
+RUN bash npm.sh
 
 # Install pip packages
-RUN ./utils/pip.sh
+RUN bash pip.sh
