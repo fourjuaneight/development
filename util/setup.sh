@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 
-echo "running stow"
-cd ~/dotfiles
-stow homedir
-
 echo "installing zsh plugings"
 sheldon lock
-
-echo "set zsh as default shell"
-chsh -s $(which zsh)
 
 echo "setting Github CLI editor"
 gh config set editor vim
