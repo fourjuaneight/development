@@ -39,8 +39,7 @@ COPY util ./
 RUN bash cargo.sh
 
 # Setup dotfiles
-COPY homedir ./homedir
-RUN stow homedir
+COPY homedir ./
 
 # Setup the environment
 RUN bash setup.sh
