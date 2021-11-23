@@ -23,6 +23,7 @@ COPY util ./
 RUN bash apt.sh
 
 # Install brew binaries
+RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN bash brew.sh
 
 # Set zsh as default shell
@@ -35,6 +36,7 @@ WORKDIR /home/node
 COPY util ./
 
 # Install rust crates
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN bash cargo.sh
 
 # Setup dotfiles
