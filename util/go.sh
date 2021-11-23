@@ -6,8 +6,5 @@ echo 'export PATH=$PATH:$GOPATH/bin' >> .bashrc
 echo 'export PATH=$PATH:$GOPATH/bin' >> .profile
 
 echo "installing go binaries"
-for pkg in $(bat -p go-packages.txt); do
-  name=$(echo "$pkg" | sed 's/github\.com\///g')
-  echo "$name";
-  go install $pkg@latest
-done
+go install github.com/nektos/act@latest
+go install github.com/junegunn/fzf@latest
