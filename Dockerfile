@@ -18,7 +18,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 # Move utility scripts
 WORKDIR /
-COPY util/apt.sh ./
+COPY util ./
 
 # Install apt binaries
 RUN bash apt.sh
