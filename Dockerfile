@@ -13,7 +13,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     libssl-dev \
     libffi-dev \
-    stow \
     zsh
 
 # Move utility scripts
