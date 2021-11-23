@@ -14,7 +14,6 @@ apt-get install -y \
   clang \
   cmake \
   coreutils \
-  dotnet-sdk-5.0 \
   findutils \
   font-manager \
   fontconfig \
