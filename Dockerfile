@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/universal:linux
+FROM ubuntu:20.04
 
 # Setup environment
 ARG DEBIAN_FRONTEND=noninteractive
