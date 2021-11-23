@@ -22,7 +22,6 @@ apt-get install -y \
   ghc \
   gifsicle \
   gist \
-  git \
   gnupg \
   golang-go \
   gpg \
@@ -52,8 +51,6 @@ apt-get install -y \
   mediainfo \
   memcached \
   mercurial \
-  mmv \
-  mosh \
   mysql-server \
   ncdu \
   nginx \
