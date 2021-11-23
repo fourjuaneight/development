@@ -37,3 +37,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Archive install scripts output
+        uses: actions/upload-artifact@v2
+        with:
+          name: install-output
+          path: temp/cargo-install*/
