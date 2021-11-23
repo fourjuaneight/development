@@ -11,6 +11,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     bash \
     build-essential \
     curl \
+    git-all \
+    install-info \
     libssl-dev \
     libffi-dev \
     zsh
