@@ -3,6 +3,8 @@ FROM ubuntu:20.04
 # Setup environment
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=US
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=$PATH:/home/node/.npm-global/bin
 
 # Get the necessary build tools
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
@@ -16,10 +18,16 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 # Move utility scripts
 WORKDIR /
-COPY util ./
+COPY util/apt.sh ./
 
 # Install apt binaries
 RUN bash apt.sh
+
+# Set user
+RUN useradd -ms /bin/bash node
+USER node
+WORKDIR /home/node
+COPY util ./
 
 # Install brew binaries
 RUN bash brew.sh
@@ -40,6 +48,9 @@ RUN bash fonts.sh
 
 # Install rust crates
 RUN bash cargo.sh
+
+# Install npm global packages
+RUN bash npm.sh
 
 # Install pip packages
 RUN bash pip.sh
