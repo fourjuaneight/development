@@ -59,7 +59,6 @@ apt-get install -y \
   optipng \
   pandoc \
   perl \
-  pkg-config \
   pngquant \
   poppler-utils \
   postgresql \
@@ -78,6 +77,8 @@ apt-get install -y \
   wget \
   xz-utils \
   zfsutils-linux
+
+apt install -y pkg-config libssl-dev
 
 echo "cleaning up"
 apt-get autoclean -y
