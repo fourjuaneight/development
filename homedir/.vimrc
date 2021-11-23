@@ -85,15 +85,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
-Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'njk' }
-Plug 'jparise/vim-graphql',
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'lepture/vim-jinja'
 Plug 'luochen1990/rainbow'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'qpkorr/vim-bufkill'
-Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
@@ -101,7 +96,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
-Plug 'w0rp/ale'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
@@ -110,23 +104,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Related Configs
 """""""""""""""""""""""""""""""""""""""""""""""
-" ALE
-let g:ale_sign_warning='--'
-let g:ale_sign_error='>>'
-
-let g:ale_sign_column_always = 1
-
-let g:ale_linters = {'css': ['prettier'], 'scss': ['prettier'], 'less': ['prettier'], 'javascript': ['eslint'], 'erb': ['erb'], 'ruby': ['rubocop'], 'yaml': ['prettier'], 'json': ['prettier'], 'python': ['flake8']}
-let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'css': ['prettier'], 'scss': ['prettier'], 'less': ['prettier'], 'javascript': ['prettier', 'eslint'], 'erb': ['erb'], 'ruby': ['rubocop'], 'yaml': ['prettier'], 'json': ['prettier'], 'python': ['autopep8']}
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_enter = 1
-let g:ale_javascript_css_use_local_config = 1
-let g:ale_javascript_sass_use_local_config = 1
-let g:ale_javascript_less_use_local_config = 1
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_javascript_eslint_use_local_config = 1
-let g:ale_json_prettier_use_local_config = 1
-let g:ale_yaml_prettier_use_local_config = 1
 
 " Ariline
 let g:airline_theme='dracula_pro'
@@ -134,7 +111,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#ale#enabled = 1
 let g:airline_section_c = ''
 let g:airline_section_x = ''
 let g:airline_section_y = ''
@@ -154,32 +130,6 @@ let g:closetag_shortcut = '>'
 " Add > at current position without closing the current tag, default is ''
 let g:closetag_close_shortcut = '<leader>>'
 
-" COC
-let g:coc_global_extensions = [
-\ 'coc-css',
-\ 'coc-emmet',
-\ 'coc-eslint',
-\ 'coc-html',
-\ 'coc-json',
-\ 'coc-pairs',
-\ 'coc-prettier',
-\ 'coc-snippets',
-\ 'coc-tsserver',
-\ ]
-vmap <C-j> <Plug>(coc-snippets-select)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-let g:coc_snippet_next = '<tab>'
-
 " FZF
 " Set statusline color
 function! s:fzf_statusline()
@@ -192,9 +142,6 @@ autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 " Git gutter
 highlight clear SignColumn
-
-" JS Libs
-let g:used_javascript_libs = 'jquery,react,underscore,vue'
 
 " Multiple Cursor
 let g:multi_cursor_use_default_mapping=0
@@ -269,9 +216,6 @@ let g:rg_derive_root='true'
 " snippets location
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
 
-" Rust
-let g:rustfmt_autosave = 1
-
 """""""""""""""""""""""""""""""""""""""""""""""
 " Key Remaps
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -329,25 +273,10 @@ nmap <leader>/btsx :Rg -t tsx ""<Left>
 nmap <leader>/br :cdo %s///g \| update
 " https://chrisarcand.com/vims-new-cdo-command/
 
-" ALE
-nmap <leader>ff :ALEFix<cr> " Ale lint and fix
-nmap <leader>fs :ALEFixSuggest<cr> " Ale suggest fixes
-
 " Bufkill
 nmap <leader>bd :BD<cr> " delete a file from buffer and keep window/split
 nmap <leader>bn :BF<cr> " next buffer
 nmap <leader>bp :BB<cr> " prev buffer
-
-" CoC
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<cr>
