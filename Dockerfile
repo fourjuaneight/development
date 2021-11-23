@@ -23,17 +23,20 @@ COPY util/apt.sh ./
 # Install apt binaries
 RUN bash apt.sh
 
+# Install brew binaries
+RUN bash brew.sh
+
+# Set zsh as default shell
+RUN chsh -s $(which zsh)
+
 # Set user
 RUN useradd -ms /bin/bash node
 USER node
 WORKDIR /home/node
 COPY util ./
 
-# Install brew binaries
-RUN bash brew.sh
-
-# Set zsh as default shell
-RUN chsh -s $(which zsh)
+# Install rust crates
+RUN bash cargo.sh
 
 # Setup dotfiles
 COPY homedir ./homedir
@@ -45,9 +48,6 @@ RUN bash setup.sh
 # Install custom fonts
 COPY fonts ./fonts
 RUN bash fonts.sh
-
-# Install rust crates
-RUN bash cargo.sh
 
 # Install npm global packages
 RUN bash npm.sh
