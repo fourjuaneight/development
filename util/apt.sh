@@ -8,16 +8,19 @@ apt-get autoremove -y
 
 echo "installing dependencies"
 apt-get install -y \
+  apt-transport-https \
   ca-certificates \
   certbot \
   clang \
   cmake \
   coreutils \
+  dotnet-sdk-5.0 \
   findutils \
   font-manager \
   fontconfig \
   gawk \
   ghc \
+  gifsicle \
   gist \
   git \
   gnupg \
@@ -29,38 +32,44 @@ apt-get install -y \
   indicator-multiload \
   inotify-tools \
   jasper \
+  jpegoptim \
   libfontconfig1-dev \
   libfreetype6-dev \
   libjpeg8 \
   libmemcached-tools \
   libncursesw5-dev \
+  libpng-dev \
   libreadline-dev \
   libreadline6-dev \
   libsecret-1-0 \
   libsecret-1-dev \
+  libvips \
+  libvips-dev \
   libxcb-xfixes0-dev \
   libxkbcommon-dev \
-  libvips \
   lsb-release \
-  libvips-dev \
+  mariadb-server \
   mediainfo \
   memcached \
   mercurial \
   mmv \
   mosh \
+  mysql-server \
   ncdu \
   nginx \
-  npm \
   nodejs \
+  npm \
+  optipng \
+  pandoc \
   perl \
   pkg-config \
-  pandoc \
+  pngquant \
   poppler-utils \
   postgresql \
+  python-pygments \
   python3 \
   python3-dev \
   python3-pip \
-  python-pygments \
   rsync \
   sed \
   silversearcher-ag \
