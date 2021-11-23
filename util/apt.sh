@@ -50,6 +50,7 @@ apt-get install -y \
   mediainfo \
   memcached \
   mercurial \
+  mysql-client \
   mysql-server \
   ncdu \
   nginx \
