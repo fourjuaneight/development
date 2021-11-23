@@ -45,12 +45,6 @@ COPY util ./
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN bash cargo.sh
 
-# Setup dotfiles
-COPY homedir ./
-
-# Setup the environment
-RUN bash setup.sh
-
 # Install custom fonts
 COPY fonts ./fonts
 RUN bash fonts.sh
@@ -60,6 +54,16 @@ RUN bash npm.sh
 
 # Install pip packages
 RUN bash pip.sh
+
+# Install Vim plug
+RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Setup dotfiles
+COPY homedir ./
+
+# Add custom themes
+COPY util/vscode-dracula.vsix ./.vscode/extensions
 
 # Load shell
 CMD [ "/bin/zsh" ]
