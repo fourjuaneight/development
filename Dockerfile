@@ -41,9 +41,6 @@ RUN bash fonts.sh
 # Install rust crates
 RUN bash cargo.sh
 
-# Install go binaries
-RUN bash go.sh
-
 # Install npm packages
 RUN bash npm.sh
 
