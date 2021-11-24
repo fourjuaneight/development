@@ -64,8 +64,5 @@ RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
 # Setup dotfiles
 COPY homedir ./
 
-# Add custom themes
-RUN mv vscode-dracula.vsix ~/.vscode/extensions
-
 # Load shell
 CMD [ "/bin/zsh" ]
