@@ -1,6 +1,6 @@
 # Development
 
-![worker](https://github.com/fourjuaneight/development/actions/workflows/publish.yml/badge.svg)<br/>
+![Build](https://github.com/fourjuaneight/development/actions/workflows/publish.yml/badge.svg)<br/>
 
 A highly opinionated Codespace container for web development.
 
