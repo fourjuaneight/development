@@ -10,3 +10,5 @@ A highly opinionated Codespace container for web development.
 - Github CLI.
 - Modern shell UI.
 - Plenty of CLI utilities for fast file management and git operations.
+
+Image available at: `ghcr.io/fourjuaneight/development:main`
