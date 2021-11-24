@@ -64,8 +64,8 @@ apt-get install -y \
   postgresql \
   python-pygments \
   python3 \
-  python3-dev \
   python3-pip \
+  python3-setuptools \
   rsync \
   sed \
   silversearcher-ag \

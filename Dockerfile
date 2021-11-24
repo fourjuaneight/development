@@ -19,6 +19,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libssl-dev \
     libffi-dev \
     pkg-config \
+    python3 \
+    python3-pip \
     zsh
 
 # Move utility scripts
