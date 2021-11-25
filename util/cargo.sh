@@ -14,6 +14,7 @@ cargo install cargo-update \
   fd-find \
   fnm \
   git-delta \
+  git-interactive-rebase-tool \
   ripgrep \
   sheldon \
   starship \
