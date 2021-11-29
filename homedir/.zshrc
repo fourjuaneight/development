@@ -12,10 +12,10 @@ export GPG_TTY=$(tty)
 # Utils
 eval "$(sheldon source)"
 eval "$(starship init zsh)"
-zsh-defer eval "$(zoxide init zsh)"
+eval "$(zoxide init zsh)"
 
 # Rust Cargo
-zsh-defer source "$HOME/.cargo/env"
+source "$HOME/.cargo/env"
 
 # Colors
 if [[ $TERM == xterm ]]; then
@@ -23,20 +23,20 @@ if [[ $TERM == xterm ]]; then
 fi
 
 # Autosuggestions
-[[ -f ~/.zsh/autosuggestions.zsh ]] && zsh-defer source ~/.zsh/autosuggestions.zsh
+[[ -f ~/.zsh/autosuggestions.zsh ]] && source ~/.zsh/autosuggestions.zsh
 
 # fzf
-[[ -f ~/.zsh/fzf.zsh ]] && zsh-defer source ~/.zsh/fzf.zsh
+[[ -f ~/.zsh/fzf.zsh ]] && source ~/.zsh/fzf.zsh
 
 _fzf_compgen_path() {
   fd -HL -E ".git" . "$1"
 }
 
 # Aliases
-[[ -f ~/.zsh/aliases.zsh ]] && zsh-defer source ~/.zsh/aliases.zsh
+[[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
 
 # Functions
-[[ -f ~/.zsh/func.zsh ]] && zsh-defer source ~/.zsh/func.zsh
+[[ -f ~/.zsh/func.zsh ]] && source ~/.zsh/func.zsh
 zmodload zsh/zprof
 
 #### FIG ENV VARIABLES ####

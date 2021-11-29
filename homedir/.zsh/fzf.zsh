@@ -1,5 +1,5 @@
 # Auto-completion
-[[ $- == *i* ]] && zsh-defer source "${HOME}/.zsh/completions/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "${HOME}/.zsh/completions/completion.zsh" 2> /dev/null
 
 # Key bindings
-zsh-defer source "${HOME}/.zsh/bindings/key-bindings.zsh"
+source "${HOME}/.zsh/bindings/key-bindings.zsh"
