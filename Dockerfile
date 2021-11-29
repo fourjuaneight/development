@@ -61,6 +61,9 @@ RUN bash pip.sh
 RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Install zsh plugins via sheldon
+RUN bash sheldon.sh
+
 # Setup dotfiles
 COPY homedir ./
 
