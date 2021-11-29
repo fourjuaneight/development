@@ -14,4 +14,4 @@ echo 'export SHELDON_DOWNLOAD_DIR="$SHELDON_DATA_DIR/downloads"' >> .bashrc
 echo 'export SHELDON_DOWNLOAD_DIR="$SHELDON_DATA_DIR/downloads"' >> .profile
 
 echo "installing zsh plugins via sheldon"
-sheldon lock
+/home/node/.cargo/bin/sheldon lock
