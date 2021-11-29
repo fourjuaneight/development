@@ -63,6 +63,7 @@ RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
 
 # Setup dotfiles
 COPY homedir ./
+RUN mv /home/node/.sheldon /home/node/.config/.sheldon
 
 # Install zsh plugins via sheldon
 RUN bash sheldon.sh
