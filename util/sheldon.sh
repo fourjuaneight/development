@@ -12,6 +12,8 @@ echo 'export SHELDON_CLONE_DIR="$SHELDON_DATA_DIR/repos"' >> .bashrc
 echo 'export SHELDON_CLONE_DIR="$SHELDON_DATA_DIR/repos"' >> .profile
 echo 'export SHELDON_DOWNLOAD_DIR="$SHELDON_DATA_DIR/downloads"' >> .bashrc
 echo 'export SHELDON_DOWNLOAD_DIR="$SHELDON_DATA_DIR/downloads"' >> .profile
+echo 'eval "$(sheldon source)"' >> .bashrc
+echo 'eval "$(sheldon source)"' >> .profile
 
 echo "installing zsh plugins via sheldon"
 /home/node/.cargo/bin/sheldon lock
