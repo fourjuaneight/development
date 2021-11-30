@@ -72,7 +72,7 @@ USER node
 RUN bash sheldon.sh
 
 # Move zsh plugins to correct directory
-RUN mv /home/node/.sheldon /home/node/.config/.sheldon
+RUN mv /home/node/.sheldon /home/node/.config/sheldon
 
 # Load shell
 CMD [ "/bin/zsh" ]
