@@ -66,13 +66,13 @@ COPY homedir ./
 
 # Install zsh plugins via sheldon
 USER root
+RUN chown node /home/node/.sheldon
+RUN chown node /home/node/.config
+USER node
 RUN bash sheldon.sh
 
 # Move zsh plugins to correct directory
 RUN mv /home/node/.sheldon /home/node/.config/.sheldon
-
-# Set user
-USER node
 
 # Load shell
 CMD [ "/bin/zsh" ]
