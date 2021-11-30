@@ -22,7 +22,6 @@ apt-get install -y \
   gifsicle \
   gist \
   gnupg \
-  golang-go \
   gpg \
   graphicsmagick \
   imagemagick \
