@@ -65,11 +65,14 @@ RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
 COPY homedir ./
 
 # Install zsh plugins via sheldon
+USER root
 RUN bash sheldon.sh
 
 # Move zsh plugins to correct directory
-USER root
 RUN mv /home/node/.sheldon /home/node/.config/.sheldon
+
+# Set user
+USER node
 
 # Load shell
 CMD [ "/bin/zsh" ]
