@@ -45,5 +45,5 @@ zmodload zsh/zprof
 #### END FIG ENV VARIABLES ####
 
 # fnm
-export PATH=/home/fourjuaneight/.fnm:$PATH
+export PATH=/home/node/.fnm:$PATH
 eval "`fnm env`"
