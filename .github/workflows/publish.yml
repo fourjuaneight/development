@@ -47,6 +47,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
+          timeout: "90m0s"
 
       - name: Archive install scripts output
         uses: actions/upload-artifact@v2
