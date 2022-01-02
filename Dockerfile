@@ -57,7 +57,7 @@ WORKDIR /home/node
 COPY util ./
 
 # Install rust crates
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 RUN bash cargo.sh
 
 # Install custom fonts
