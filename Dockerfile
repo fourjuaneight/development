@@ -10,14 +10,15 @@ ENV OPENSSL_INCLUDE_DIR=/usr/include/openssl
 ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 # Get the necessary build tools
-RUN dnf check-update && dnf -y upgrade && dnf -y install \
+RUN dnf check-update
+RUN dnf -y upgrade
+RUN dnf -y install \
     bash \
     curl \
-    dnf-plugins-core \
     git \
     kernel-devel \
-    openssl-devel \
     libffi-devel \
+    openssl-devel \
     pkgconf \
     python3 \
     python3-pip \
