@@ -18,7 +18,6 @@ dnf -y install bash \
   curl \
   dnf-plugins-core \
   findutils \
-  font-manager \
   fontconfig-devel \
   freetype-devel \
   g++ \
