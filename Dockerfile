@@ -10,7 +10,7 @@ ENV OPENSSL_INCLUDE_DIR=/usr/include/openssl
 ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 # Get the necessary build tools
-RUN dnf check-update
+RUN dnf update
 RUN dnf -y upgrade
 RUN dnf -y install \
     bash \
