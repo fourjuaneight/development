@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM fedora:35
 
 # Setup environment
 ARG DEBIAN_FRONTEND=noninteractive
@@ -10,26 +10,33 @@ ENV OPENSSL_INCLUDE_DIR=/usr/include/openssl
 ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 # Get the necessary build tools
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN dnf check-update && dnf -y upgrade && dnf -y install \
     bash \
-    build-essential \
     curl \
-    git-all \
-    install-info \
-    libssl-dev \
-    libffi-dev \
-    pkg-config \
+    dnf-plugins-core \
+    git \
+    kernel-devel \
+    openssl-devel \
+    libffi-devel \
+    pkgconf \
     python3 \
     python3-pip \
-    wget \
-    zsh
+    wget
+
+# Set user
+RUN useradd -ms /bin/bash node
+USER node
+WORKDIR /home/node
+COPY homedir/.bashrc ./.bashrc
+RUN source ~/.bashrc
 
 # Move utility scripts
+USER root
 WORKDIR /
 COPY util ./
 
-# Install apt binaries
-RUN bash apt.sh
+# Install dnf binaries
+RUN bash dnf.sh
 
 # Install brew binaries
 RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -43,7 +50,6 @@ RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
 RUN chsh -s $(which zsh)
 
 # Set user
-RUN useradd -ms /bin/bash node
 USER node
 WORKDIR /home/node
 COPY util ./
