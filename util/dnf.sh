@@ -28,9 +28,9 @@ dnf -y install bash \
   git \
   gnupg \
   golang \
-  graphicsmagick \
+  GraphicsMagick \
   id3v2 \
-  imagemagick \
+  ImageMagick \
   indent \
   inotify-tools \
   jasper \
