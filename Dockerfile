@@ -1,13 +1,9 @@
 FROM fedora:35
 
 # Setup environment
-ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=US
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
-ENV OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
-ENV OPENSSL_INCLUDE_DIR=/usr/include/openssl
-ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 # Get the necessary build tools
 RUN dnf -y update
