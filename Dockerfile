@@ -22,6 +22,7 @@ RUN dnf -y install \
     pkgconf \
     python3 \
     python3-pip \
+    util-linux-user \
     wget
 
 # Set user
