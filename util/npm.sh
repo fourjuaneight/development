@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-echo 'export PATH=$HOME/.fnm:$PATH' >> .bashrc
-echo 'export PATH=$HOME/.fnm:$PATH' >> .profile
-eval "`~/.cargo/bin/fnm env`"
-
 echo "setting Node to latest LTS version"
-~/.cargo/bin/fnm install 16.13.0
-~/.cargo/bin/fnm use 16.13.0
+~/.cargo/bin/fnm install --lts
+~/.cargo/bin/fnm use $(~/.cargo/bin/fnm list | ~/.cargo/bin/sd "\*\s" "" | ~/.cargo/bin/sd "\n" "" | ~/.cargo/bin/sd "%" "" | ~/.cargo/bin/sd ".*v(\d+\.\d+\.\d+)\slts-.*" '$1')
 
 echo "installing global npm dependencies"
 npm install -g eslint fkill-cli glyphhanger prettier serve

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 echo "installing rustup"
-echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> .bashrc
-echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> .profile
 source $HOME/.cargo/env
 rustup toolchain install nightly --allow-downgrade --profile minimal --component clippy
 
