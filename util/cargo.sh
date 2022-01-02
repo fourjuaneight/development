@@ -7,6 +7,7 @@ rustup toolchain install nightly --allow-downgrade --profile minimal --component
 echo "installing rust binaries"
 cargo install --locked bat
 cargo install --locked deno
+cargo install --locked sheldon
 cargo install cargo-update \
   exa \
   fd-find \
@@ -14,6 +15,5 @@ cargo install cargo-update \
   git-delta \
   git-interactive-rebase-tool \
   ripgrep \
-  sheldon \
   starship \
   zoxide
