@@ -5,9 +5,6 @@ dnf check-update
 dnf -y upgrade
 dnf -y autoremove
 
-echo "adding zfs repo"
-dnf install -y https://zfsonlinux.org/fedora/zfs-release$(rpm -E %dist).noarch.rpm
-
 echo "installing dependencies"
 dnf -y install bash \
   ca-certificates \
@@ -67,14 +64,7 @@ dnf -y install bash \
   wget \
   xsel \
   xz \
-  zfs \
   zsh
-  
-echo "installing alacritty"
-dnf -y install rust-alacritty
-
-echo "loading zfs kernel module"
-modprobe zfs
 
 echo "cleaning up"
 dnf clean all
