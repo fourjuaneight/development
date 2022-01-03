@@ -11,7 +11,6 @@ alias ........="z ../../../../../../.."
 alias .........="z ../../../../../../../.."
 alias cl="clear"
 alias dot="z ~/dotfiles"
-alias tree="tree -I node_modules"
 alias unzip="xcompress x"
 
 # alternative to 'cat'
