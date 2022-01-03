@@ -14,6 +14,10 @@ cargo install cargo-update \
   fnm \
   git-delta \
   git-interactive-rebase-tool \
+  os_info_cli \
   ripgrep \
+  sd \
   starship \
+  tree-rs \
+  xcompress \
   zoxide
