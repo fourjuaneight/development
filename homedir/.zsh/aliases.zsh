@@ -12,6 +12,7 @@ alias .........="z ../../../../../../../.."
 alias cl="clear"
 alias dot="z ~/dotfiles"
 alias tree="tree -I node_modules"
+alias unzip="xcompress x"
 
 # alternative to 'cat'
 alias cat="bat"
@@ -29,6 +30,9 @@ alias cls="ls -F | grep -v / | wc -l"
 # list files
 alias lf="fd . -t f -E .DS_Store"
 alias lfc="fd . -t f -E .DS_Store | wc -l"
+
+# alternative to 'tree'
+alias tree="tree-rs"
 
 # search history
 alias hgrep="history | ag"
