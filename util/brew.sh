@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> .bashrc
-echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> .profile
 
 echo "turning off analytics"
 brew analytics off

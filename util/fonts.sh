@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 echo "saving fonts"
-for file in ./fonts/**/*; do
-  cp "$file" ~/.local/share/fonts
+for file in ./fonts/**; do
+  mv "$file" ~/.local/share/fonts
 done
 echo "done saving fonts."
 

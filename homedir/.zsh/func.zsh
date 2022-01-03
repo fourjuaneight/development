@@ -2,7 +2,7 @@
 
 # repeat history
 fh() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | gsed -r 's/ *[0-9]*\*? *//' | gsed -r 's/\\/\\\\/g')
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sd ' *[0-9]*\*? *' '' | sd '\\' '\\\\')
 }
 
 # find and kill process
@@ -70,42 +70,16 @@ webp2jpeg() {
 
 # FILES #
 
-# find and extract archives
-fex() {
-  local files fname
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-  fname="${files%.*}";
-
-  if [ -n $files ] ; then
-    case $files in
-      *.tar.bz2)  tar -xvjf $file      ;;
-      *.tar.gz)   tar -xvzf $file      ;;
-      *.bz2)      bunzip2 -v $file     ;;
-      *.rar)      unrar xv $file       ;;
-      *.gz)       gunzip -v $file      ;;
-      *.tar)      tar -xvf $file       ;;
-      *.tbz2)     tar -xvjf $file      ;;
-      *.tgz)      tar -xvzf $file      ;;
-      *.zip)      unzip $file          ;;
-      *.Z)        uncompress -v $file  ;;
-      *.7z)       7z x $file -bb       ;;
-      *)          echo "Don't know how to extract '$files'." ;;
-    esac
-  else
-    echo "'$files' is not a valid file!"
-  fi
-}
-
 # batch rename files with regex
 brn() {
   local files filesMatch
   # remove quotes
-  filesMatch=$(sed -e 's/^"//' -e 's/"$//' <<<$2)
+  filesMatch=$(sd '^"(.*)"$' '$1' <<<$3)
   # convert to list
   IFS=$'\n' files=($(echo $filesMatch | ls))
 
   for file in $files; do
-    new=$(echo "$file" | sed -E $1) &&
+    new=$(echo "$file" | sd $1 $2) &&
     echo "$file -> $new"
     mv "$file" "$new"
   done
@@ -141,8 +115,8 @@ fe() {
 fif() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   local file line
-  file="$(rga --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rga --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rga --ignore-case --pretty --context 10 '$1' {}")" &&
-  line=$(rga -n $1 $file | gsed -r "s/^([[:digit:]]+)\:\s\s.*/\1/") &&
+  file="$(rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}")" &&
+  line=$(rg -n $1 $file | sd "^([0-9]+)\:\s\s.*" "$1") &&
 
   if [[ -n $file ]]
   then
@@ -166,12 +140,12 @@ fpf() {
 
 # DIRECTORIES #
 
-# Open via rga with line number
+# Open via rg with line number
 fa() {
   local file
   local line
 
-  read -r file line <<<"$(rga --no-heading -n $@ | fzf -0 -1 | mawk -F: '{print $1, $2}')"
+  read -r file line <<<"$(rg --no-heading -n $@ | fzf -0 -1 | mawk -F: '{print $1, $2}')"
 
   if [[ -n $file ]]
   then
@@ -211,7 +185,7 @@ fofc() {
 cf() {
   local file
 
-  file="$(locate -Ai -0 $@ | rga -z -v '~$' | fzf --read0 -0 -1)"
+  file="$(locate -Ai -0 $@ | rg -z -v '~$' | fzf --read0 -0 -1)"
 
   if [[ -n $file ]]
   then
@@ -291,7 +265,7 @@ gcbr() {
   local branches branch
   branches=$(git branch) &&
   branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //")
+  git checkout $(echo "$branch" | sd ".* " "")
 }
 
 # checkout git remote branch
@@ -300,7 +274,7 @@ gcrbr() {
   local branches branch selectedBranch
   branches=$(git branch -r) &&
   selectedBranch=$(echo "$branches" | fzf +s +m -e) &&
-  branch=$(echo "$selectedBranch" | sed "s:.* origin/::" | sed "s:.* ::")
+  branch=$(echo "$selectedBranch" | sd '.*origin/([a-zA-Z0-9\.-_/]+)$' '$1')
   git checkout $branch
 }
 
@@ -316,7 +290,7 @@ gdbr() {
   local branches branch
   branches=$(git branch) &&
   branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git branch -D $(echo "$branch" | sed "s/.* //")
+  git branch -D $(echo "$branch" | sd ".* " "")
 }
 
 # merge git local branch into current
@@ -324,7 +298,7 @@ gmbr() {
   local branches branch
   branches=$(git branch) &&
   branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git merge -s ort $(echo "$branch" | sed "s/.* //")
+  git merge -s ort $(echo "$branch" | sd ".* " "")
 }
 
 # merge squash git local branch into current
@@ -332,7 +306,7 @@ gmsbr() {
   local branches branch
   branches=$(git branch) &&
   branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git merge -s ort --squash $(echo "$branch" | sed "s/.* //")
+  git merge -s ort --squash $(echo "$branch" | sd ".* " "")
 }
 
 # rebase git local branch into current
@@ -340,7 +314,7 @@ grebr() {
   local branches branch
   branches=$(git branch) &&
   branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git rebase $(echo "$branch" | sed "s/.* //")
+  git rebase $(echo "$branch" | sd ".* " "")
 }
 
 # git pull rebase given branch
@@ -354,7 +328,7 @@ grs() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
   commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git reset --soft $(echo "$commit" | sed "s/ .*//")
+  git reset --soft $(echo "$commit" | sd ".* " "")
 }
 
 # git reset hard to commit id
@@ -362,7 +336,7 @@ grh() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
   commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git reset --hard $(echo "$commit" | sed "s/ .*//")
+  git reset --hard $(echo "$commit" | sd ".* " "")
 }
 
 # git revert to commit
@@ -370,7 +344,7 @@ grvt() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
   commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git revert $(echo "$commit" | sed "s/ .*//")
+  git revert $(echo "$commit" | sd ".* " "")
 }
 
 # git commit browser
@@ -379,7 +353,7 @@ gscl() {
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
       --bind "ctrl-m:execute:
-                (rga -o '[a-f0-9]\{7\}' | head -1 |
+                (rg -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
 FZF-EOF"
@@ -389,7 +363,7 @@ FZF-EOF"
 fgcm() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%N%Creset %s' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e | gsed -r "s/^[a-z0-9]+\s-\s([a-zA-z\s]+).?/\1/g") &&
+  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e | sd "^[a-z0-9]+\s-\s([a-zA-z\s]+).?" "$1") &&
   message="git commit -S -m \"$commit\""
   print -z $message
 }
@@ -399,7 +373,7 @@ gec() {
   local commits commit id
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
   commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  id=$(echo "$commit" | sed "s/ .*//")
+  id=$(echo "$commit" | sd " .*" "")
   git rebase -i "$id^"
 }
 
@@ -410,8 +384,8 @@ gnpr() {
   git fetch
   local branches selectedBranch branch reviewers handle
   branches=$(git branch -r) &&
-  selectedBranch=$(echo "$branches" | sed 's/origin\///g' | fzf --ansi +s +m -e) &&
-  branch=$(echo $selectedBranch | sed 's/^[[:space:]]*//g') &&
+  selectedBranch=$(echo "$branches" | sd 'origin\/' '' | fzf --ansi +s +m -e) &&
+  branch=$(echo $selectedBranch | sd '^\s*' '') &&
   reviewers=(fourjuaneight davidbbaxter baileysh9 bbohach) &&
   handle=$(print -l "${(@)reviewers}" | fzf --ansi --tac +s +m -e) &&
   gh pr create -B $branch -t $1 -r $handle
@@ -422,7 +396,7 @@ gvpr() {
   git fetch
   local selectedPR PR
   selectedPR=$(gh pr list | fzf --ansi --tac +s +m -e) &&
-  PR=$(echo $selectedPR | sed -E 's/^([[:digit:]]+).*/\1/g') &&
+  PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
   gh pr view $PR
 }
 
@@ -434,7 +408,7 @@ gmpr() {
     gh pr merge $1 -s
   else
     selectedPR=$(gh pr list | fzf --ansi --tac +s +m -e) &&
-    PR=$(echo $selectedPR | sed -E 's/^([[:digit:]]+).*/\1/g') &&
+    PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
     gh pr merge $PR -s
   fi
 }

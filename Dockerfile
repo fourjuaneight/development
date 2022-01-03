@@ -24,7 +24,15 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     wget \
     zsh
 
+# Set user
+RUN useradd -ms /bin/bash node
+USER node
+WORKDIR /home/node
+COPY homedir/.bashrc ./.bashrc
+RUN source ~/.bashrc
+
 # Move utility scripts
+USER root
 WORKDIR /
 COPY util ./
 
@@ -43,20 +51,21 @@ RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
 RUN chsh -s $(which zsh)
 
 # Set user
-RUN useradd -ms /bin/bash node
 USER node
 WORKDIR /home/node
 COPY util ./
 
 # Install rust crates
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 RUN bash cargo.sh
 
 # Install custom fonts
 COPY fonts ./fonts
+USER root
 RUN bash fonts.sh
 
 # Install npm global packages
+USER node
 RUN bash npm.sh
 
 # Install pip packages
