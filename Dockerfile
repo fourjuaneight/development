@@ -58,9 +58,11 @@ RUN bash cargo.sh
 
 # Install custom fonts
 COPY fonts ./fonts
+USER root
 RUN bash fonts.sh
 
 # Install npm global packages
+USER node
 RUN bash npm.sh
 
 # Install pip packages
