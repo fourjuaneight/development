@@ -11,4 +11,6 @@ A highly opinionated Codespace container for web development.
 - Modern shell UI.
 - Plenty of CLI utilities for fast file management and git operations.
 
-Image available at: `ghcr.io/fourjuaneight/development:main`
+Images available at:
+- `ghcr.io/fourjuaneight/development:ubuntu`
+- `ghcr.io/fourjuaneight/development:fedora`
