@@ -26,6 +26,9 @@ alias la="exa -a"
 
 alias cls="ls -F | grep -v / | wc -l"
 
+# alternative to 'tree'
+alias tree="tree-rs"
+
 # list files
 alias lf="fd . -t f -E .DS_Store"
 alias lfc="fd . -t f -E .DS_Store | wc -l"
@@ -72,7 +75,7 @@ alias wnv="bat -p .nvmrc"
 alias psl="psql postgres -h localhost -l"
 
 # Git
-alias ga="git add"
+# alias ga="git add"
 alias gaa="git add --all"
 alias gap="git add --patch"
 

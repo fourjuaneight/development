@@ -70,6 +70,32 @@ webp2jpeg() {
 
 # FILES #
 
+# find and extract archives
+fex() {
+  local files fname
+  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  fname="${files%.*}";
+
+  if [ -n $files ] ; then
+    case $files in
+      *.tar.bz2)  tar -xvjf $file      ;;
+      *.tar.gz)   tar -xvzf $file      ;;
+      *.bz2)      bunzip2 -v $file     ;;
+      *.rar)      unrar xv $file       ;;
+      *.gz)       gunzip -v $file      ;;
+      *.tar)      tar -xvf $file       ;;
+      *.tbz2)     tar -xvjf $file      ;;
+      *.tgz)      tar -xvzf $file      ;;
+      *.zip)      unzip $file          ;;
+      *.Z)        uncompress -v $file  ;;
+      *.7z)       7z x $file -bb       ;;
+      *)          echo "Don't know how to extract '$files'." ;;
+    esac
+  else
+    echo "'$files' is not a valid file!"
+  fi
+}
+
 # batch rename files with regex
 brn() {
   local files filesMatch
@@ -115,7 +141,7 @@ fe() {
 fif() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   local file line
-  file="$(rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}")" &&
+  file="$(rga --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rga --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rga --ignore-case --pretty --context 10 '$1' {}")" &&
   line=$(rg -n $1 $file | sd "^([0-9]+)\:\s\s.*" "$1") &&
 
   if [[ -n $file ]]
@@ -140,12 +166,12 @@ fpf() {
 
 # DIRECTORIES #
 
-# Open via rg with line number
+# Open via rga with line number
 fa() {
   local file
   local line
 
-  read -r file line <<<"$(rg --no-heading -n $@ | fzf -0 -1 | mawk -F: '{print $1, $2}')"
+  read -r file line <<<"$(rga --no-heading -n $@ | fzf -0 -1 | mawk -F: '{print $1, $2}')"
 
   if [[ -n $file ]]
   then
@@ -185,7 +211,7 @@ fofc() {
 cf() {
   local file
 
-  file="$(locate -Ai -0 $@ | rg -z -v '~$' | fzf --read0 -0 -1)"
+  file="$(locate -Ai -0 $@ | rga -z -v '~$' | fzf --read0 -0 -1)"
 
   if [[ -n $file ]]
   then
@@ -353,7 +379,7 @@ gscl() {
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
       --bind "ctrl-m:execute:
-                (rg -o '[a-f0-9]\{7\}' | head -1 |
+                (rga -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
 FZF-EOF"
@@ -382,13 +408,11 @@ gec() {
 # git create new PR, add title, select reviewer
 gnpr() {
   git fetch
-  local branches selectedBranch branch reviewers handle
+  local branches selectedBranch branch
   branches=$(git branch -r) &&
   selectedBranch=$(echo "$branches" | sd 'origin\/' '' | fzf --ansi +s +m -e) &&
   branch=$(echo $selectedBranch | sd '^\s*' '') &&
-  reviewers=(fourjuaneight davidbbaxter baileysh9 bbohach) &&
-  handle=$(print -l "${(@)reviewers}" | fzf --ansi --tac +s +m -e) &&
-  gh pr create -B $branch -t $1 -r $handle
+  gh pr create -B $branch -t $1
 }
 
 # git list PRs, then inspect
@@ -410,5 +434,42 @@ gmpr() {
     selectedPR=$(gh pr list | fzf --ansi --tac +s +m -e) &&
     PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
     gh pr merge $PR -s
+  fi
+}
+
+
+# HOMEBREW #
+
+# Install (one or multiple) selected application(s)
+# using "brew search" as source input
+# mnemonic [B]rew [I]nstall [P]ackage
+bip() {
+  local inst=$(brew search “$@" | fzf -m)
+
+  if [[ $inst ]]; then
+    for prog in $(echo $inst);
+    do; brew install $prog; done;
+  fi
+}
+
+# Update (one or multiple) selected application(s)
+# mnemonic [B]rew [U]pdate [P]ackage
+bup() {
+  local upd=$(brew leaves | fzf -m)
+
+  if [[ $upd ]]; then
+    for prog in $(echo $upd);
+    do; brew upgrade $prog; done;
+  fi
+}
+
+# Delete (one or multiple) selected application(s)
+# mnemonic [B]rew [C]lean [P]ackage (e.g. uninstall)
+bcp() {
+  local uninst=$(brew leaves | fzf -m)
+
+  if [[ $uninst ]]; then
+    for prog in $(echo $uninst);
+    do; brew uninstall $prog; done;
   fi
 }
