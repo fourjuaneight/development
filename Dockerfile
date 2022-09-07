@@ -41,8 +41,8 @@ RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEA
 RUN bash brew.sh
 
 # Install Go
-RUN wget https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
-RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go1.19.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
 
 # Set zsh as default shell
 RUN chsh -s $(which zsh)
