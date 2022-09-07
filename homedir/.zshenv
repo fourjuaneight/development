@@ -12,6 +12,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$HOME/.fnm:$PATH
 eval "`fnm env`"
 
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
 # Sheldon
 export SHELDON_CONFIG_DIR="$HOME/.config/sheldon"
 export SHELDON_DATA_DIR="$SHELDON_CONFIG_DIR"
@@ -29,3 +33,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # zellij
 export ZELLIJ_CONFIG_DIR="$HOME/.config/zellij"
+
+# SKIM
+export SKIM_DEFAULT_COMMAND="git ls-tree -r --name-only HEAD || rg --files || fd ."

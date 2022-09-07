@@ -1,19 +1,28 @@
-
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the start of this file.
-[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
-#### END FIG ENV VARIABLES ####
 # ENV
 source "${HOME}/.zshenv"
+
+# History
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups # ignore duplication command history list
+setopt hist_ignore_space
+setopt hist_verify
+setopt inc_append_history
+setopt share_history # share command history data
 
 # GPG
 export GPG_TTY=$(tty)
 
 # Utils
+export EDITOR=hx
 eval "$(sheldon source)"
 eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
-
+zsh-defer eval "$(atuin init zsh)"
+zsh-defer eval "$(zoxide init zsh)"
 # Rust Cargo
 source "$HOME/.cargo/env"
 
@@ -38,12 +47,3 @@ _fzf_compgen_path() {
 # Functions
 [[ -f ~/.zsh/func.zsh ]] && source ~/.zsh/func.zsh
 zmodload zsh/zprof
-
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the end of this file.
-[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
-#### END FIG ENV VARIABLES ####
-
-# fnm
-export PATH=/home/node/.fnm:$PATH
-eval "`fnm env`"

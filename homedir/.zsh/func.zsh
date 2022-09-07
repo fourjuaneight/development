@@ -2,16 +2,15 @@
 
 # repeat history
 fh() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sd ' *[0-9]*\*? *' '' | sd '\\' '\\\\')
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | sk --no-sort --tac | sd ' *[0-9]*\*? *' '' | sd '\\' '\\\\')
 }
 
 # find and kill process
 fkp() {
   local pid
-  pid=$(ps axco pid,command,time | sed 1d | fzf -m | mawk '{print $1}')
+  pid=$(ps axco pid,command,time | sed 1d | sk --multi | mawk '{print $1}')
 
-  if [[ "x$pid" != "x" ]];
-  then
+  if [[ "x$pid" != "x" ]]; then
     echo $pid | xargs kill -${1:-9}
     fkp
   fi
@@ -21,24 +20,39 @@ fkp() {
 
 # glyphhanger whitelist Latin
 gla() {
-  local files fname
-  IFS=$'\n' files=($(fzf --query="$1.ttf" --multi --select-1 --exit-0))
-  fname="${files%.*}" &&
-  if [[ -n "$files" ]]; then
-    glyphhanger --LATIN --formats=woff2,woff --subset=$fname.ttf &&
+  local file fname
+  IFS=$'\n' file=($(gum choose --no-limit))
+  fname="${file%.*}" &&
+    if [[ -n "$file" ]]; then
+      glyphhanger --LATIN --formats=woff2,woff --subset=$file &&
+      [[ -n "$fname-subset.woff" ]] && mv $fname-subset.woff $fname.woff &&
+      [[ -n "$fname-subset.woff2" ]] && mv $fname-subset.woff2 $fname.woff2
+    fi
+}
+
+agla() {
+  for file in $(ls *.*tf); do
+    fname="${file%.*}"
+    glyphhanger --LATIN --formats=woff2,woff --subset=$file &&
     [[ -n "$fname-subset.woff" ]] && mv $fname-subset.woff $fname.woff &&
     [[ -n "$fname-subset.woff2" ]] && mv $fname-subset.woff2 $fname.woff2
-  fi
+  done
 }
 
 # glyphhanger whitelist US ASCII
 glu() {
-  local files fname
-  IFS=$'\n' files=($(fzf --query="$1.ttf" --multi --select-1 --exit-0))
-  fname="${files%.*}" &&
-  if [[ -n "$files" ]]; then
-    glyphhanger --US_ASCII --formats=woff2,woff --subset=$fname.ttf
-  fi
+  local file fname
+  IFS=$'\n' file=($(gum choose --no-limit))
+  fname="${file%.*}" &&
+    if [[ -n "$file" ]]; then
+      glyphhanger --US_ASCII --formats=woff2,woff --subset=$file
+    fi
+}
+
+aglu() {
+  for file in $(ls *.*tf); do
+    glyphhanger --US_ASCII --formats=woff2,woff --subset=$file
+  done
 }
 
 # IMAGES #
@@ -70,29 +84,34 @@ webp2jpeg() {
 
 # FILES #
 
+# render markdown files
+rmd() {
+  inlyne $1 --theme dark
+}
+
 # find and extract archives
 fex() {
-  local files fname
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-  fname="${files%.*}";
+  local file fname
+  IFS=$'\n' file=($(sk --query "$1" --select-1 --exit-0))
+  fname="${file%.*}"
 
-  if [ -n $files ] ; then
-    case $files in
-      *.tar.bz2)  tar -xvjf $file      ;;
-      *.tar.gz)   tar -xvzf $file      ;;
-      *.bz2)      bunzip2 -v $file     ;;
-      *.rar)      unrar xv $file       ;;
-      *.gz)       gunzip -v $file      ;;
-      *.tar)      tar -xvf $file       ;;
-      *.tbz2)     tar -xvjf $file      ;;
-      *.tgz)      tar -xvzf $file      ;;
-      *.zip)      unzip $file          ;;
-      *.Z)        uncompress -v $file  ;;
-      *.7z)       7z x $file -bb       ;;
-      *)          echo "Don't know how to extract '$files'." ;;
+  if [ -n $file ]; then
+    case $file in
+    *.tar.bz2) tar -xvjf $file ;;
+    *.tar.gz) tar -xvzf $file ;;
+    *.bz2) bunzip2 -v $file ;;
+    *.rar) unrar xv $file ;;
+    *.gz) gunzip -v $file ;;
+    *.tar) tar -xvf $file ;;
+    *.tbz2) tar -xvjf $file ;;
+    *.tgz) tar -xvzf $file ;;
+    *.zip) unzip $file ;;
+    *.Z) uncompress -v $file ;;
+    *.7z) 7z x $file -bb ;;
+    *) echo "Don't know how to extract '$file'." ;;
     esac
   else
-    echo "'$files' is not a valid file!"
+    echo "'$file' is not a valid file!"
   fi
 }
 
@@ -106,7 +125,7 @@ brn() {
 
   for file in $files; do
     new=$(echo "$file" | sd $1 $2) &&
-    echo "$file -> $new"
+      echo "$file -> $new"
     mv "$file" "$new"
   done
 }
@@ -114,17 +133,17 @@ brn() {
 # select two files, but fold lines longer than 20 characters, then diff (via delta)
 diffLongSel() {
   local file1 file2
-  file1=$(fzf +m -q "$1") &&
-  file2=$(fzf +m -q "$1") &&
-  delta <(fold -s -w 20 $file1) <(fold -s -w 20 $file2)
+  file1=$(sk --query "$1") &&
+    file2=$(sk --query "$1") &&
+    delta <(fold -s -w 20 $file1) <(fold -s -w 20 $file2)
 }
 
 # select two files, then diff (via delta)
 diffSel() {
   local file1 file2
-  file1=$(fzf +m -q "$1") &&
-  file2=$(fzf +m -q "$1") &&
-  delta $file1 $file2
+  file1=$(sk --query "$1") &&
+    file2=$(sk --query "$1") &&
+    delta $file1 $file2
 }
 
 # fe [FUZZY PATTERN] - Open the selected file with the default editor
@@ -132,57 +151,57 @@ diffSel() {
 #   - Exit if there's no match (--exit-0)
 fe() {
   local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && code ${files[@]}
+  IFS=$'\n' files=($(sk --query "$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && hx ${files[@]}
 }
 
-# using ripgrep combined with preview and open on VSCode
+# using ripgrep combined with preview and open on editor
 # find-in-file - usage: fif <searchTerm>
 fif() {
-  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-  local file line
-  file="$(rga --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rga --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rga --ignore-case --pretty --context 10 '$1' {}")" &&
-  line=$(rg -n $1 $file | sd "^([0-9]+)\:\s\s.*" "$1") &&
-
-  if [[ -n $file ]]
-  then
-    code -g $file:$line
+  if [ ! "$#" -gt 0 ]; then
+    echo "Need a string to search for!"
+    return 1
   fi
+  local file line
+  file="$(rg --files-with-matches --no-messages "$1" | sk --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}")" &&
+    line=$(rg -n $1 $file | sed -E 's/^([0-9]+).*/\1/') &&
+    if [[ -n $file ]]; then
+      hx $file:$line
+    fi
 }
 
 # find and delete files
 fdf() {
   local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(sk --query "$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && rm $files
 }
 
 # find and print files
 fpf() {
   local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(sk --query "$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && echo $files
 }
 
 # DIRECTORIES #
 
-# Open via rga with line number
+# Open via rg with line number
 fa() {
   local file
   local line
 
-  read -r file line <<<"$(rga --no-heading -n $@ | fzf -0 -1 | mawk -F: '{print $1, $2}')"
+  read -r file line <<<"$(rg --no-heading -n $@ | sk --exit-0 --select-1 | mawk -F: '{print $1, $2}')"
 
-  if [[ -n $file ]]
-  then
-    code -g $file:$line
+  if [[ -n $file ]]; then
+    hx $file:$line
   fi
 }
 
 # find and show filepath
 fsf() {
   local IFS files directory fullpath
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(sk --query "$1" --multi --select-1 --exit-0))
   directory=$(dirname $files)
   fullpath="$(pwd)/$directory"
   [[ -n "$files" ]] && open $fullpath
@@ -191,19 +210,8 @@ fsf() {
 # find and open file (default app)
 fof() {
   local files
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(sk --query "$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && open $files
-}
-
-# find and open file in VSCode
-fofc() {
-  local out file key
-  IFS=$'\n' out=($(fzf --query="$1" --exit-0 --expect=ctrl-o,ctrl-e))
-  key=$(head -1 <<< "$out")
-  file=$(head -2 <<< "$out" | tail -1)
-  if [[ -n "$file" ]]; then
-    [[ "$key" = ctrl-o ]] && code "$file" || ${EDITOR:-vim} "$file"
-  fi
 }
 
 # fuzzy cd from anywhere
@@ -211,32 +219,40 @@ fofc() {
 cf() {
   local file
 
-  file="$(locate -Ai -0 $@ | rga -z -v '~$' | fzf --read0 -0 -1)"
+  file="$(locate -Ai -0 $@ | rg -z -v '~$' | sk --read0 --exit-0 --select-1)"
 
-  if [[ -n $file ]]
-  then
-     if [[ -d $file ]]
-     then
-        z -- $file
-     else
-        z -- ${file:h}
-     fi
+  if [[ -n $file ]]; then
+    if [[ -d $file ]]; then
+      z -- $file
+    else
+      z -- ${file:h}
+    fi
   fi
 }
 
 # cd to selected directory
 fcd() {
   local dir
-  dir=$(fd -I -E node_modules -t d --prune . ./ 2> /dev/null | fzf +m) &&
-  z "$dir"
+  dir=$(fd -I -E node_modules -t d --prune . ./ 2>/dev/null | sk) &&
+    z "$dir"
+}
+
+# cd to repo directory and open in vscode
+fcdr() {
+  local dir
+  dir=$(fd -I -E node_modules -t d --prune . ~/Repos 2>/dev/null | sk) &&
+  z "$dir" &&
+  fnm use;
+  clear &&
+  code "$dir"
 }
 
 # find file and move to another directory
 ffmv() {
   local file dest
-  IFS=$'\n' file=($(fzf --query="$1" --multi --select-1 --exit-0)) &&
-  dest=$(fd -I -E node_modules -t f --prune . ./ */\.* 2> /dev/null | fzf +m) &&
-  mv "$file" "$dest"
+  IFS=$'\n' file=($(sk --query "$1" --multi --select-1 --exit-0)) &&
+    dest=$(fd -I -E node_modules -t f --prune . ./ */\.* 2>/dev/null | sk) &&
+    mv "$file" "$dest"
 }
 
 # cd to selected parent directory
@@ -250,36 +266,46 @@ fpcd() {
       get_parent_dirs $(dirname "$1")
     fi
   }
-  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf --tac)
+  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | sk --tac)
   z "$DIR"
 }
 
 # cd into the directory of the selected file
 ffcd() {
-   local file
-   local dir
-   file=$(fzf +m -q "$1") &&
-   dir=$(dirname "$file") &&
-   z "$dir"
+  local file
+  local dir
+  file=$(sk --query "$1") &&
+    dir=$(dirname "$file") &&
+    z "$dir"
 }
 
 # tree selected directory
 ftr() {
   local dir
   dir=$(fd ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -not \( -name node_modules -prune \) -print 2> /dev/null | fzf +m) &&
-  tree "$dir" -I node_modules
+    -o -type d -not \( -name node_modules -prune \) -print 2>/dev/null | sk) &&
+    tree "$dir" -I node_modules
 }
 
 # find and delete directory
 fdd() {
   local dir
-  dir=$(fd -I -E node_modules -t d --prune . ./ 2> /dev/null | fzf +m) &&
-  rm -rf $dir
+  dir=$(fd -I -E node_modules -t d --prune . ./ 2>/dev/null | sk) &&
+    rm -rf $dir
 }
 
-
 # GIT #
+
+# run command on multiple repos
+mg() {
+  local selections
+  selections=$(fd -I -E node_modules -t d --prune . ~/Repos 2>/dev/null | sk --multi) &&
+
+  echo "$selections" | while IFS= read -r repo; do
+    echo "Running on $repo:" &&
+    pushd && z "$repo" && eval "$1" && popd;
+  done
+}
 
 # git log branch
 glb() {
@@ -290,8 +316,9 @@ glb() {
 gcbr() {
   local branches branch
   branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git checkout $(echo "$branch" | sd ".* " "")
+    branch=$(echo "$branches" | sk --delimiter 15) &&
+    git checkout $(echo "$branch" | sd ".* " "") &&
+    git pull --rebase
 }
 
 # checkout git remote branch
@@ -299,9 +326,10 @@ gcrbr() {
   git fetch
   local branches branch selectedBranch
   branches=$(git branch -r) &&
-  selectedBranch=$(echo "$branches" | fzf +s +m -e) &&
-  branch=$(echo "$selectedBranch" | sd '.*origin/([a-zA-Z0-9\.-_/]+)$' '$1')
-  git checkout $branch
+    selectedBranch=$(echo "$branches" | sk --no-sort --exact) &&
+    branch=$(echo "$selectedBranch" | sd '.*origin/([a-zA-Z0-9\.-_/]+)$' '$1')
+  git checkout $branch &&
+  git pull --rebase
 }
 
 # create git branch and add to remote
@@ -315,32 +343,32 @@ gnbr() {
 gdbr() {
   local branches branch
   branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git branch -D $(echo "$branch" | sd ".* " "")
+    branch=$(echo "$branches" | sk --delimiter 15) &&
+    git branch -D $(echo "$branch" | sd ".* " "")
 }
 
 # merge git local branch into current
 gmbr() {
   local branches branch
   branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git merge -s ort $(echo "$branch" | sd ".* " "")
+    branch=$(echo "$branches" | sk --delimiter 15) &&
+    git merge -s ort $(echo "$branch" | sd ".* " "")
 }
 
 # merge squash git local branch into current
 gmsbr() {
   local branches branch
   branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git merge -s ort --squash $(echo "$branch" | sd ".* " "")
+    branch=$(echo "$branches" | sk --delimiter 15) &&
+    git merge -s ort --squash $(echo "$branch" | sd ".* " "")
 }
 
 # rebase git local branch into current
 grebr() {
   local branches branch
   branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf -d 15 +m) &&
-  git rebase $(echo "$branch" | sd ".* " "")
+    branch=$(echo "$branches" | sk --delimiter 15) &&
+    git rebase $(echo "$branch" | sd ".* " "")
 }
 
 # git pull rebase given branch
@@ -353,33 +381,25 @@ gpr() {
 grs() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git reset --soft $(echo "$commit" | sd ".* " "")
-}
-
-# git reset hard to commit id
-grh() {
-  local commits commit
-  commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git reset --hard $(echo "$commit" | sd ".* " "")
+    commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact) &&
+    git reset --soft $(echo "$commit" | sd ".* " "")
 }
 
 # git revert to commit
 grvt() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  git revert $(echo "$commit" | sd ".* " "")
+    commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact) &&
+    git revert $(echo "$commit" | sd ".* " "")
 }
 
 # git commit browser
 gscl() {
   git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+    sk --ansi --no-sort --reverse --tiebreak index --bind ctrl-s:toggle-sort \
       --bind "ctrl-m:execute:
-                (rga -o '[a-f0-9]\{7\}' | head -1 |
+                (rg -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
                 {}
 FZF-EOF"
@@ -389,8 +409,8 @@ FZF-EOF"
 fgcm() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%N%Creset %s' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e | sd "^[a-z0-9]+\s-\s([a-zA-z\s]+).?" "$1") &&
-  message="git commit -S -m \"$commit\""
+    commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact | sd "^[a-z0-9]+\s-\s([a-zA-z\s]+).?" "$1") &&
+    message="git commit -S -m \"$commit\""
   print -z $message
 }
 
@@ -398,8 +418,8 @@ fgcm() {
 gec() {
   local commits commit id
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --ansi --tac +s +m -e) &&
-  id=$(echo "$commit" | sd " .*" "")
+    commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact) &&
+    id=$(echo "$commit" | sd " .*" "")
   git rebase -i "$id^"
 }
 
@@ -407,69 +427,100 @@ gec() {
 
 # git create new PR, add title, select reviewer
 gnpr() {
-  git fetch
-  local branches selectedBranch branch
-  branches=$(git branch -r) &&
-  selectedBranch=$(echo "$branches" | sd 'origin\/' '' | fzf --ansi +s +m -e) &&
-  branch=$(echo $selectedBranch | sd '^\s*' '') &&
-  gh pr create -B $branch -t $1
+  local branches selectedBranch branch reviewers handle
+  users=("fourjuaneight" "davidbbaxter" "baileysh9" "bbohach")
+  git fetch &&
+    branches=$(git branch -r) &&
+    selectedBranch=$(echo "$branches" | sd 'origin/HEAD -> .*\n' '' | sd 'origin/' '' | sk --ansi --no-sort --exact) &&
+    branch=$(echo $selectedBranch | sd '^\s*' '') &&
+    handle=$(printf "%s\n" "${users[@]}" | sk --ansi --tac --no-sort --exact) &&
+    gh pr create -B $branch -t $1 -r $handle
 }
 
 # git list PRs, then inspect
 gvpr() {
   git fetch
   local selectedPR PR
-  selectedPR=$(gh pr list | fzf --ansi --tac +s +m -e) &&
-  PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
-  gh pr view $PR
+  selectedPR=$(gh pr list | sk --ansi --tac --no-sort --exact) &&
+    PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
+    gh pr view $PR
 }
 
-# git merge PR. Provide number or select from open PRs
+# git merge (squash and delete branch) PR. Provide number or select from open PRs
 gmpr() {
   git fetch
   local selectedPR PR
   if [[ "$1" ]]; then
     gh pr merge $1 -s
   else
-    selectedPR=$(gh pr list | fzf --ansi --tac +s +m -e) &&
-    PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
-    gh pr merge $PR -s
+    selectedPR=$(gh pr list | sk --ansi --tac --no-sort --exact) &&
+      PR=$(echo $selectedPR | sd '^([0-9]+).*' '$1') &&
+      gh pr merge $PR -s -d
   fi
 }
 
+# NPM #
 
-# HOMEBREW #
+fnr() {
+  local scripts
+  script="$(jq -r '.scripts | keys | .[]' package.json | gum filter)"
+  npm run $script
+}
 
-# Install (one or multiple) selected application(s)
-# using "brew search" as source input
-# mnemonic [B]rew [I]nstall [P]ackage
-bip() {
-  local inst=$(brew search “$@" | fzf -m)
+# Version key/value should be on his own line
+npv() {
+  local pkg_version
+  pkg_version=$(cat package.json \
+    | grep version \
+    | head -1 \
+    | awk -F: '{ print $2 }' \
+    | sed 's/[",]//g')
 
-  if [[ $inst ]]; then
-    for prog in $(echo $inst);
-    do; brew install $prog; done;
+  echo $pkg_version
+}
+
+
+# DOCKER #
+
+# delete all containers and images
+dckclean() {
+  local dangling
+  docker system df &&
+    docker system prune -a -f &&
+    dangling=$(docker volume ls -qf dangling=true)
+  if [[ "$dangling" ]]; then
+    docker volume rm "$dangling"
   fi
 }
 
-# Update (one or multiple) selected application(s)
-# mnemonic [B]rew [U]pdate [P]ackage
-bup() {
-  local upd=$(brew leaves | fzf -m)
-
-  if [[ $upd ]]; then
-    for prog in $(echo $upd);
-    do; brew upgrade $prog; done;
-  fi
+# find and delete docker images
+dckrmim() {
+  local images selectedImage image imageList
+  images=$(docker image list --format "table {{.ID}}\t{{.Repository}}" | sed -n '1!p') &&
+    # use <TAB> to select multiple items
+    selectedImage=$(echo "$images" | gum filter) &&
+    image=$(echo $selectedImage | sd '^([a-z0-9]+)\s+.*' '$1') &&
+    # converte list to space separate string
+    imageList=$(echo $image | mawk 'FNR!=1{print l}{l=$0};END{ORS="";print l}' ORS=' ') &&
+    docker image rm $imageList
 }
 
-# Delete (one or multiple) selected application(s)
-# mnemonic [B]rew [C]lean [P]ackage (e.g. uninstall)
-bcp() {
-  local uninst=$(brew leaves | fzf -m)
+# find and delete docker containers
+dckrmcn() {
+  local containers selectedContainer container containerList
+  containers=$(docker container list --format "table {{.ID}}\t{{.Repository}}" | sed -n '1!p') &&
+    # use <TAB> to select multiple items
+    selectedContainer=$(echo "$containers" | gum filter) &&
+    container=$(echo $selectedContainer | sd '^([a-z0-9]+)\s+.*' '$1') &&
+    # converte list to space separate string
+    containerList=$(echo $container | mawk 'FNR!=1{print l}{l=$0};END{ORS="";print l}' ORS=' ') &&
+    docker container rm $containerList
+}
 
-  if [[ $uninst ]]; then
-    for prog in $(echo $uninst);
-    do; brew uninstall $prog; done;
-  fi
+# find and start docker services
+dckup() {
+  local services selectedService
+  services=$(docker-compose ps --services) &&
+    selectedService=$(echo "$services" | gum filter) &&
+    clear && docker compose up $selectedService
 }

@@ -11,20 +11,19 @@ alias ........="z ../../../../../../.."
 alias .........="z ../../../../../../../.."
 alias cl="clear"
 alias dot="z ~/dotfiles"
-alias unzip="xcompress x"
 
 # alternative to 'cat'
 alias cat="bat"
 
-# alternative to 'find'
-alias find="fd"
+# alternative to 'rm'
+alias rm="rip -i"
 
 # alternatives to 'ls'
 alias ls="exa"
 alias ll="exa -l"
 alias la="exa -a"
-
-alias cls="ls -F | grep -v / | wc -l"
+alias lal="exa -al"
+alias lc="ls | wc -l"
 
 # alternative to 'tree'
 alias tree="tree-rs"
@@ -32,26 +31,28 @@ alias tree="tree-rs"
 # list files
 alias lf="fd . -t f -E .DS_Store"
 alias lfc="fd . -t f -E .DS_Store | wc -l"
-
-# alternative to 'tree'
-alias tree="tree-rs"
+alias cls="ls -F |grep -v / | wc -l"
 
 # search history
 alias hgrep="history | ag"
 
 # zsh
-alias zconf="vim ~/.zshrc"
+alias zconf="hx ~/.zshrc"
 alias zsour="source ~/.zshrc"
 
 # vim
-alias vi="vim"
-alias vconf="vim ~/.vimrc"
-alias vsour="vim source ~/.vimrc"
+alias vi="nvim"
+alias vconf="hx ~/.vimrc"
+alias vsour="nvim source ~/.vimrc"
+
+# cron
+alias croe="crontab -e"
+alias crol="crontab -l"
 
 # zellij
 alias tmux="zellij"
 alias zj="zellij"
-alias zjconf="vim ~/.config/zellij/config.yaml"
+alias zjconf="hx ~/.config/zellij/config.yaml"
 alias zjdev="zellij --layout ~/.config/zellij/layout.dev.yaml"
 alias zjgit="zellij --layout ~/.config/zellij/layout.git.yaml"
 
@@ -64,15 +65,18 @@ alias spsh="sudo service ssh stop"
 alias wpw="webpack -w"
 alias wp="webpack"
 
+# Postgres
+alias psl="psql postgres -h localhost -l"
+
+# NPM
+alias nvup="npm version"
+
 # nvm
 alias nvi="fnm install"
 alias nvu="fnm use"
 alias nviu="fnm install && fnm use --delete-prefix"
 alias nr="npm run"
 alias wnv="bat -p .nvmrc"
-
-# Postgres
-alias psl="psql postgres -h localhost -l"
 
 # Git
 # alias ga="git add"
@@ -85,6 +89,7 @@ alias gc="git commit -S"
 alias gf="git fetch"
 
 alias gup="git push"
+alias gupt="git push --tags"
 
 alias gp="git pull --rebase"
 alias gsp="git stash && git pull --rebase && git stash pop"
@@ -92,7 +97,10 @@ alias gsp="git stash && git pull --rebase && git stash pop"
 alias gst="git status"
 alias gstat="onefetch ."
 
-alias gdf="git diff"
+alias gai="git checkout --theirs ."
+alias gao="git checkout --ours ."
+
+# alias gdf="git diff"
 alias gdfn="git diff --name-only"
 alias gdfs="git diff --staged"
 

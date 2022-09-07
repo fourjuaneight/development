@@ -9,14 +9,14 @@
 
 [core]
   excludesfile = ~/.gitignore_global
-  editor = vim
+  editor = hx
   pager = delta
 
 [delta]
   features = side-by-side line-numbers decorations
   whitespace-error-style = 22 reverse
-  plus-color = "#50fa7b"
-  minus-color = "#ff80bf"
+  plus-color = syntax "#50fa7b"
+  minus-color = normal "#ff80bf"
   syntax-theme = Dracula
 
 [delta "decorations"]
@@ -28,11 +28,9 @@
   diffFilter = delta --color-only
 
 [diff]
-  tool = vimdiff
   colorMoved = zebra
 
 [merge]
-  tool = vimdiff
   conflictstyle = diff3
 
 [mergetool]
@@ -41,6 +39,9 @@
 
 [commit]
   gpgsign = true
+
+[tag]
+  gpgSign = true
 
 [fetch]
   prune = true

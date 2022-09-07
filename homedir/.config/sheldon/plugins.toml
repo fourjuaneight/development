@@ -1,0 +1,31 @@
+shell = "zsh"
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+[plugins.zsh-async]
+github = "mafredri/zsh-async"
+
+[plugins.fzf-zsh-completions]
+github = "chitoku-k/fzf-zsh-completions"
+
+[plugins.forgit]
+github = "wfxr/forgit"
+
+[plugins.ugit]
+github = "Bhupesh-V/ugit"
+
+[plugins.fzf-marks]
+github = "urbainvaes/fzf-marks"
