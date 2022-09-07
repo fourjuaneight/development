@@ -9,7 +9,9 @@ echo "updating homebrew directories"
 brew update
 
 echo "installing packages"
-brew install ack cocoapods fzf gcc@5 gh hugo webp
+brew tap helix-editor/helix
+brew install helix
+brew install ack cocoapods fzf gcc@5 gh go gum hugo pnpm webp
 
 echo "cleaning up"
 brew cleanup

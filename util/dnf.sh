@@ -6,7 +6,10 @@ dnf -y upgrade
 dnf -y autoremove
 
 echo "installing dependencies"
-dnf -y install bash \
+dnf -y install ansible \
+  apt-transport-https \
+  bash \
+  build-essential \
   ca-certificates \
   certbot \
   clang \
@@ -15,28 +18,39 @@ dnf -y install bash \
   curl \
   dnf-plugins-core \
   findutils \
-  fontconfig-devel \
-  freetype-devel \
-  g++ \
+  font-manager \
+  fontconfig \
   gawk \
   gcc \
   gcc-c++ \
   ghc \
+  gist \
   git \
   gnupg \
-  golang \
-  GraphicsMagick \
+  gpg \
+  graphicsmagick \
   id3v2 \
-  ImageMagick \
+  imagemagick \
   indent \
+  indicator-multiload \
   inotify-tools \
   jasper \
-  kernel-devel \
-  libjpeg \
-  libmemcached-awesome \
-  libsecret \
-  libxcb-devel \
-  libxkbcommon-devel \
+  libfontconfig1-dev \
+  libfreetype6-dev \
+  libjpeg8 \
+  libmemcached-tools \
+  libncursesw5-dev \
+  libreadline-dev \
+  libreadline6-dev \
+  libsecret-1-0 \
+  libsecret-1-dev \
+  libxcb-xfixes0-dev \
+  libxkbcommon-dev \
+  libvips \
+  lsb-release \
+  libvips-dev \
+  lua5.4 \
+  mc \
   mediainfo \
   memcached \
   mercurial \
@@ -46,24 +60,30 @@ dnf -y install bash \
   ncdu \
   nginx \
   perl \
-  pkgconf \
+  pkg-config \
   pandoc \
-  poppler \
+  poppler-utils \
   postgresql \
   python3 \
+  python3-dev \
   python3-pip \
   python-pygments \
   readline \
   ripgrep \
   rsync \
   sed \
+  silversearcher-ag \
   stow \
-  the_silver_searcher \
+  tar \
   tmux \
+  unrar \
   vim \
+  virtualenv \
   wget \
+  wireshark \
   xsel \
-  xz \
+  xz-utils \
+  zfsutils-linux \
   zsh
 
 echo "cleaning up"
