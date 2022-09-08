@@ -9,17 +9,18 @@ ENV PATH=$PATH:/home/node/.npm-global/bin
 RUN dnf -y update
 RUN dnf -y upgrade
 RUN dnf -y install \
-    bash \
-    curl \
-    git \
-    kernel-devel \
-    libffi-devel \
-    openssl-devel \
-    pkgconf \
-    python3 \
-    python3-pip \
-    util-linux-user \
-    wget
+  bash \
+  curl \
+  git \
+  kernel-devel \
+  libffi-devel \
+  openssl-devel \
+  pkgconf \
+  python3 \
+  python3-pip \
+  util-linux-user \
+  wget \
+  which
 
 # Set user
 RUN useradd -ms /bin/bash node
