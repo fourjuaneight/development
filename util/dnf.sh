@@ -20,6 +20,9 @@ dnf -y install ansible \
   findutils \
   font-manager \
   fontconfig \
+  fontconfig-devel \
+  freetype-devel \
+  g++ \
   gawk \
   gcc \
   gcc-c++ \
@@ -27,6 +30,7 @@ dnf -y install ansible \
   gist \
   git \
   gnupg \
+  golang \
   gpg \
   graphicsmagick \
   id3v2 \
@@ -35,17 +39,22 @@ dnf -y install ansible \
   indicator-multiload \
   inotify-tools \
   jasper \
+  kernel-devel \
   libfontconfig1-dev \
   libfreetype6-dev \
   libjpeg8 \
+  libmemcached-awesome \
   libmemcached-tools \
   libncursesw5-dev \
   libreadline-dev \
   libreadline6-dev \
+  libsecret \
   libsecret-1-0 \
   libsecret-1-dev \
+  libxcb-devel \
   libxcb-xfixes0-dev \
   libxkbcommon-dev \
+  libxkbcommon-devel \
   libvips \
   lsb-release \
   libvips-dev \
@@ -59,9 +68,11 @@ dnf -y install ansible \
   mosh \
   ncdu \
   nginx \
-  perl \
+  perl \ 
   pkg-config \
+  pkgconf \
   pandoc \
+  poppler \
   poppler-utils \
   postgresql \
   python3 \
@@ -73,15 +84,17 @@ dnf -y install ansible \
   rsync \
   sed \
   silversearcher-ag \
-  stow \
+  stow \ 
   tar \
   tmux \
   unrar \
   vim \
   virtualenv \
   wget \
+  which \
   wireshark \
   xsel \
+  xz \
   xz-utils \
   zfsutils-linux \
   zsh
