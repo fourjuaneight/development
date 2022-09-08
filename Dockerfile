@@ -20,7 +20,8 @@ RUN dnf -y install \
   python3-pip \
   util-linux-user \
   wget \
-  which
+  which \
+  zsh
 
 # Set user
 RUN useradd -ms /bin/bash node
