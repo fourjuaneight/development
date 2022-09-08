@@ -10,6 +10,7 @@ cargo install --locked bat
 cargo install --locked deno
 cargo install --locked pueue
 cargo install --locked sheldon
+cargo install --locked starship
 cargo install cargo-update \
   exa \
   fd-find \
@@ -21,7 +22,6 @@ cargo install cargo-update \
   ripgrep \
   rm-improved \
   sd \
-  starship \
   topgrade \
   tree-rs \
   xcompress \
