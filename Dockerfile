@@ -48,11 +48,11 @@ RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.1.linux-amd64.tar.gz
 
 # Set zsh as default shell
 RUN chsh -s $(which zsh)
+USER node
 COPY homedir ./
-RUN source ~/.zshrc
+RUN source /home/node/.zshrc
 
 # Set user
-USER node
 WORKDIR /home/node
 COPY util ./
 
