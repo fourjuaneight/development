@@ -11,11 +11,14 @@ RUN dnf -y upgrade
 RUN dnf -y install \
   bash \
   curl \
+  file \
   git \
   kernel-devel \
   libffi-devel \
+  libxcrypt-compat \
   openssl-devel \
   pkgconf \
+  procps-ng \
   python3 \
   python3-pip \
   util-linux-user \
