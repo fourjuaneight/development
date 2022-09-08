@@ -48,6 +48,7 @@ RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.1.linux-amd64.tar.gz
 
 # Set zsh as default shell
 RUN chsh -s $(which zsh)
+COPY homedir ./
 RUN source ~/.zshrc
 
 # Set user
@@ -74,9 +75,6 @@ RUN bash pip.sh
 # Install Vim plug
 RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Setup dotfiles
-COPY homedir ./
 
 # Install zsh plugins via sheldon
 USER root
