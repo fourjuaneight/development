@@ -1,6 +1,6 @@
 OWNER ?= fourjuaneight
 REPO ?= development
-VERSION ?= latest
+VERSION ?= fedora
 
 build:
 	docker build -t $(OWNER)/$(REPO):$(VERSION) .
