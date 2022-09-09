@@ -1,6 +1,6 @@
 # Development
 
-![Build](https://github.com/fourjuaneight/development/actions/workflows/publish.yml/badge.svg)<br/>
+![Build Fedora](https://github.com/fourjuaneight/development/actions/workflows/publish-fedora.yml/badge.svg)<br/>
 
 A highly opinionated Codespace container for web development.
 

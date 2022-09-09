@@ -1,10 +1,10 @@
-name: Build Image
+name: Build Fedora Image
 
 on: ["push"]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: "${{ github.github.repository_owner }}/development:fedora"
 
 jobs:
   build-and-push-image:
@@ -34,6 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: Dockerfile.fedora
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
