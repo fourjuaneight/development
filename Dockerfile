@@ -76,10 +76,10 @@ RUN bash pip.sh
 
 # Install zsh plugins via sheldon
 USER root
-RUN chown node /home/node/.config
-USER node
 RUN mkdir /home/node/.config/sheldon/repos
 RUN mkdir /home/node/.config/sheldon/downloads
+RUN chown node /home/node/.config
+USER node
 RUN bash sheldon.sh
 
 # Load shell
