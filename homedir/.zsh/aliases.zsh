@@ -43,7 +43,7 @@ alias zsour="source ~/.zshrc"
 # vim
 alias vi="nvim"
 alias vconf="hx ~/.vimrc"
-alias vsour="nvim source ~/.vimrc"
+alias vsour="hx source ~/.vimrc"
 
 # cron
 alias croe="crontab -e"
