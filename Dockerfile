@@ -78,8 +78,8 @@ RUN bash pip.sh
 USER root
 RUN chown node /home/node/.config
 USER node
-RUN mkdir /home/node/.config/.sheldon/repos
-RUN mkdir /home/node/.config/.sheldon/downloads
+RUN mkdir /home/node/.config/sheldon/repos
+RUN mkdir /home/node/.config/sheldon/downloads
 RUN bash sheldon.sh
 
 # Load shell
