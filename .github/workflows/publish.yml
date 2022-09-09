@@ -37,20 +37,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "ghcr.io/${{ github.repository }}:fedora"
-          format: "table"
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL"
-          timeout: "90m0s"
-
-      - name: Archive install scripts output
-        uses: actions/upload-artifact@v2
-        with:
-          name: install-output
-          path: temp/cargo-install*/
