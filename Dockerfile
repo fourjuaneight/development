@@ -74,10 +74,6 @@ RUN bash npm.sh
 # Install pip packages
 RUN bash pip.sh
 
-# Install Vim plug
-RUN curl -fLo ${HOME}/.vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 # Install zsh plugins via sheldon
 USER root
 RUN chown node /home/node/.config
