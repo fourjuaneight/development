@@ -32,7 +32,6 @@ RUN useradd -ms /bin/bash node
 USER node
 WORKDIR /home/node
 COPY homedir/.bashrc ./.bashrc
-RUN source ~/.bashrc
 
 # Move utility scripts
 USER root
