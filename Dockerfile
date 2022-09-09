@@ -77,9 +77,9 @@ RUN bash pip.sh
 # Install zsh plugins via sheldon
 USER root
 RUN chown node /home/node/.config
-RUN chown node /home/node/.sheldon
 USER node
-RUN mkdir /home/node/.sheldon/repos
+RUN mkdir /home/node/.config/.sheldon/repos
+RUN mkdir /home/node/.config/.sheldon/downloads
 RUN bash sheldon.sh
 
 # Load shell
