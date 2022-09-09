@@ -78,7 +78,7 @@ RUN bash pip.sh
 USER root
 RUN mkdir /home/node/.config/sheldon/repos
 RUN mkdir /home/node/.config/sheldon/downloads
-RUN chown node /home/node/.config
+RUN chown -R node /home/node/.config
 USER node
 RUN bash sheldon.sh
 
