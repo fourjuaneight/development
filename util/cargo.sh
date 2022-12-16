@@ -6,7 +6,6 @@ rustup toolchain install nightly --allow-downgrade --profile minimal --component
 
 echo "installing rust binaries"
 cargo install --locked bat
-cargo install --locked deno
 cargo install --locked pueue
 cargo install --locked sheldon
 cargo install --locked starship
