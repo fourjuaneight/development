@@ -85,5 +85,11 @@ RUN chown -R node /home/node/.config
 USER node
 RUN bash sheldon.sh
 
+# Install Tenjin
+WORKDIR /home/node
+RUN git clone git@github.com:fourjuaneight/tenjin.git
+RUN cd ~/tenjin
+RUN make install
+
 # Load shell
 CMD [ "/bin/zsh" ]
