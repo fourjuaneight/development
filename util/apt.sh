@@ -26,6 +26,7 @@ apt-get install -y \
   gifsicle \
   gist \
   git \
+  git-lfs \
   gnupg \
   gpg \
   graphicsmagick \

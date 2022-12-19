@@ -29,6 +29,7 @@ dnf -y install ansible \
   ghc \
   gist \
   git \
+  git-lfs \
   gnupg \
   golang \
   gpg \
