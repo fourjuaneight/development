@@ -89,8 +89,6 @@ RUN bash sheldon.sh
 # Install Tenjin
 WORKDIR /home/node
 RUN git clone https://github.com/fourjuaneight/tenjin.git
-WORKDIR /home/node/tenjin
-RUN make install
 
 # Load shell
 CMD [ "/bin/zsh" ]
