@@ -17,6 +17,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
   file \
   git \
   git-all \
+  git-lfs \
   install-info \
   libssl-dev \
   libffi-dev \

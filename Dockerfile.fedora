@@ -13,6 +13,8 @@ RUN dnf -y install \
   curl \
   file \
   git \
+  git-all \
+  git-lfs \
   kernel-devel \
   libffi-devel \
   libxcrypt-compat \
