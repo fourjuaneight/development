@@ -55,6 +55,7 @@ dnf -y install ansible \
   libsecret \
   libsecret-1-0 \
   libsecret-1-dev \
+  libssh2 \
   libxcb-devel \
   libxcb-xfixes0-dev \
   libxkbcommon-dev \
@@ -63,6 +64,7 @@ dnf -y install ansible \
   lsb-release \
   libvips-dev \
   lua5.4 \
+  mariadb-server \
   mc \
   mediainfo \
   memcached \
@@ -72,10 +74,13 @@ dnf -y install ansible \
   mosh \
   ncdu \
   nginx \
-  perl \ 
+  perl \
   pkg-config \
   pkgconf \
   pandoc \
+  php-mysqlnd \
+  php-phpseclib-net-ssh2 \
+  php-pecl-ssh2 \
   poppler \
   poppler-utils \
   postgresql \
@@ -88,7 +93,7 @@ dnf -y install ansible \
   rsync \
   sed \
   silversearcher-ag \
-  stow \ 
+  stow \
   tar \
   tmux \
   unrar \
@@ -97,6 +102,7 @@ dnf -y install ansible \
   wget \
   which \
   wireshark \
+  wordpress \
   xsel \
   xz \
   xz-utils \

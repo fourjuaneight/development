@@ -9,6 +9,7 @@ apt-get autoremove -y
 echo "installing dependencies"
 apt-get install -y \
   ansible \
+  apache2 \
   apt-transport-https \
   bash \
   build-essential \
@@ -30,6 +31,7 @@ apt-get install -y \
   gnupg \
   gpg \
   graphicsmagick \
+  httpd \
   id3v2 \
   imagemagick \
   indent \
@@ -37,6 +39,7 @@ apt-get install -y \
   inotify-tools \
   jasper \
   jpegoptim \
+  libapache2-mod-php \
   libfontconfig1-dev \
   libfreetype6-dev \
   libjpeg8 \
@@ -55,6 +58,8 @@ apt-get install -y \
   lsb-release \
   libvips-dev \
   lua5.4 \
+  mariadb-server \
+  mariadb-client \
   mc \
   mediainfo \
   memcached \
@@ -68,6 +73,19 @@ apt-get install -y \
   pkg-config \
   pandoc \
   perl \
+  php \
+  php-bcmath \
+  php-curl \
+  php-imagick \
+  php-intl \
+  php-json \
+  php-mbstring \
+  php-mysql \
+  php-mysqlnd \
+  php-pecl-ssh2 \
+  php-phpseclib-net-ssh2 \
+  php-xml \
+  php-zip \
   pngquant \
   poppler-utils \
   postgresql \
