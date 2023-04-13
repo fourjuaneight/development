@@ -16,7 +16,7 @@ eval "`fnm env`"
 eval "$(frum init)"
 
 # pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 # nvm
