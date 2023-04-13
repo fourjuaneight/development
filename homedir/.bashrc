@@ -16,7 +16,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # fnm
 export PATH=$HOME/.fnm:$PATH
-eval "`fnm env`"
 
 # Sheldon
 export SHELDON_CONFIG_DIR="$HOME/.config/sheldon"
@@ -41,13 +40,6 @@ export GPG_TTY=$(tty)
 
 # Utils
 export EDITOR=hx
-eval "$(sheldon source)"
-eval "$(starship init zsh)"
-zsh-defer eval "$(atuin init zsh)"
-zsh-defer eval "$(zoxide init zsh)"
-
-# Rust Cargo
-zsh-defer source "$HOME/.cargo/env"
 
 # Colors
 if [[ $TERM == xterm ]]; then
