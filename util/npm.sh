@@ -7,4 +7,4 @@ source ~/.bashrc
 /home/node/.cargo/bin/fnm use 16
 
 echo "installing global npm dependencies"
-npm install -g eslint fkill-cli glyphhanger prettier serve typescript
+pnpm install -g eslint fkill-cli glyphhanger prettier serve typescript

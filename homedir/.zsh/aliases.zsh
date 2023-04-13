@@ -43,7 +43,7 @@ alias zsour="source ~/.zshrc"
 # vim
 alias vi="nvim"
 alias vconf="hx ~/.vimrc"
-alias vsour="hx source ~/.vimrc"
+alias vsour="nvim source ~/.vimrc"
 
 # cron
 alias croe="crontab -e"
@@ -52,9 +52,9 @@ alias crol="crontab -l"
 # zellij
 alias tmux="zellij"
 alias zj="zellij"
-alias zjconf="hx ~/.config/zellij/config.yaml"
-alias zjdev="zellij --layout ~/.config/zellij/layout.dev.yaml"
-alias zjgit="zellij --layout ~/.config/zellij/layout.git.yaml"
+alias zjconf="hx ~/.config/zellij/config.kdl"
+alias zjdev="zellij --layout ~/.config/zellij/layout.dev.kdl"
+alias zjgit="zellij --layout ~/.config/zellij/layout.git.kdl"
 
 # ssh
 alias rssh="sudo service ssh --full-restart"
@@ -70,13 +70,16 @@ alias psl="psql postgres -h localhost -l"
 
 # NPM
 alias nvup="npm version"
+alias nr="npm run"
 
 # nvm
 alias nvi="fnm install"
 alias nvu="fnm use"
 alias nviu="fnm install && fnm use --delete-prefix"
-alias nr="npm run"
 alias wnv="bat -p .nvmrc"
+
+# dev
+alias start="fnm use || fnm use 16 && clear && npm run clean; npm run start"
 
 # Git
 # alias ga="git add"

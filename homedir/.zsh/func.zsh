@@ -2,6 +2,19 @@ zsh-defer source ${HOME}/dotfiles/lib/util/echos.sh
 
 # UTILITIES #
 
+# choose from different zellij layouts
+zjl() {
+  local action
+  action=$(gum choose "dev" "git") &&
+
+  if [[ $action == "dev" ]]; then
+    zellij --layout ~/.config/zellij/layout.dev.kdl;
+  elif [[ $action == "git" ]]; then
+    zellij --layout ~/.config/zellij/layout.git.kdl;
+  fi
+  clear &&
+}
+
 # repeat history
 fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | sk --no-sort --tac | sd ' *[0-9]*\*? *' '' | sd '\\' '\\\\')
@@ -212,6 +225,24 @@ brn() {
   done
 }
 
+# batch rename files to lowercase
+brnl() {
+  local files filesMatch
+  # remove quotes
+  filesMatch=$(sd '^"(.*)"$' '$1' <<<$3)
+  # convert to list
+  IFS=$'\n' files=($(echo $filesMatch | ls))
+
+  for file in $files; do
+    new=$(echo "$file" | tr '[:upper:]' '[:lower:]')
+
+    if [ "$file" != "$lowercase_file" ]; then
+      mv "$file" "$new" &&
+      echo "$file -> $new"
+    fi
+  done
+}
+
 brn_count() {
   local files filesMatch
   TEMPFILE=/tmp/counter.tmp
@@ -230,46 +261,6 @@ brn_count() {
     new+=$COUNTER
     echo "$file -> $new"
     mv "$file" "$new"
-  done
-
-  unlink $TEMPFILE
-}
-
-b2mkv() {
-  for file in *; do
-    fname="${file%.*}"
-    ffmpeg -i $file -vcodec copy -acodec copy "$fname.mkv"
-  done
-}
-
-# batch update mp3 title with regex
-bump3t() {
-  for file in $(ls *.mp3); do
-    new=$(echo $file | sd $1 $2) &&
-      echo "title -> $new"
-    id3v2 -t "$new" $file
-  done
-}
-
-# batch update mkv title from filename
-bumkvt() {
-  for file in $(ls *.mkv); do
-    new=$(echo $file | sd "[a-zA-Z_'\-]+-S[0-9]+-E[0-9]+-(.*)\.mkv" "$1" | sd '_' ' ' | sd '-' ' - ') &&
-      echo "title -> $new"
-    mkvpropedit $file -e info -s title="$new"
-  done
-}
-
-# batch update mkv title by chapters
-bumkvc() {
-  TEMPFILE=/tmp/counter.tmp
-  echo $1 >$TEMPFILE
-
-  for file in $(ls *.mkv); do
-    COUNTER=$(($(cat $TEMPFILE) + 1))
-    echo $COUNTER >$TEMPFILE
-    echo "title -> Chapter $COUNTER"
-    mkvpropedit $file -e info -s title="Chapter $new"
   done
 
   unlink $TEMPFILE
@@ -408,19 +399,18 @@ fcdc() {
   fi
   clear &&
 }
+
 # cd to repo directory and open with selected action
 fcdr() {
   local dir action
   dir=$(fd -t d --prune . ~/Repos 2>/dev/null | sk) &&
-  action=$(gum choose "cd" "code" "nvim" "hx") &&
+  action=$(gum choose "cd" "code" "fleet" "nvim" "hx") &&
   z "$dir" &&
   fnm use;
   if [[ $action == "cd" ]]; then
     echo "cd $dir";
   elif [[ $action == "code" ]]; then
     code "$dir";
-  elif [[ $action == "nvim" ]]; then
-    nvim "$dir";
   elif [[ $action == "hx" ]]; then
     hx "$dir";
   fi
@@ -596,7 +586,7 @@ FZF-EOF"
 }
 
 # find git commit and print selected message for new commit
-fgcm() {
+gpcm() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%N%Creset %s' --abbrev-commit --reverse) &&
     commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact | sd "^[a-z0-9]+\s-\s([a-zA-z\s]+).?" "$1") &&
@@ -605,7 +595,7 @@ fgcm() {
 }
 
 # find git commit and print details
-fgcp() {
+gscm() {
   local commits commit
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%N%Creset %s' --abbrev-commit --reverse) &&
   commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact | sd "^([a-z0-9]+)\s-\s.*" "$1") &&
@@ -613,7 +603,7 @@ fgcp() {
 }
 
 # edit commit
-gec() {
+gecm() {
   local commits commit id
   commits=$(git log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reverse) &&
     commit=$(echo "$commits" | sk --ansi --tac --no-sort --exact) &&
@@ -675,50 +665,4 @@ npv() {
     | sed 's/[",]//g')
 
   echo $pkg_version
-}
-
-
-# DOCKER #
-
-# delete all containers and images
-dckclean() {
-  local dangling
-  docker system df &&
-    docker system prune -a -f &&
-    dangling=$(docker volume ls -qf dangling=true)
-  if [[ "$dangling" ]]; then
-    docker volume rm "$dangling"
-  fi
-}
-
-# find and delete docker images
-dckrmim() {
-  local images selectedImage image imageList
-  images=$(docker image list --format "table {{.ID}}\t{{.Repository}}" | sed -n '1!p') &&
-    # use <TAB> to select multiple items
-    selectedImage=$(echo "$images" | gum filter) &&
-    image=$(echo $selectedImage | sd '^([a-z0-9]+)\s+.*' '$1') &&
-    # converte list to space separate string
-    imageList=$(echo $image | mawk 'FNR!=1{print l}{l=$0};END{ORS="";print l}' ORS=' ') &&
-    docker image rm $imageList
-}
-
-# find and delete docker containers
-dckrmcn() {
-  local containers selectedContainer container containerList
-  containers=$(docker container list --format "table {{.ID}}\t{{.Repository}}" | sed -n '1!p') &&
-    # use <TAB> to select multiple items
-    selectedContainer=$(echo "$containers" | gum filter) &&
-    container=$(echo $selectedContainer | sd '^([a-z0-9]+)\s+.*' '$1') &&
-    # converte list to space separate string
-    containerList=$(echo $container | mawk 'FNR!=1{print l}{l=$0};END{ORS="";print l}' ORS=' ') &&
-    docker container rm $containerList
-}
-
-# find and start docker services
-dckup() {
-  local services selectedService
-  services=$(docker-compose ps --services) &&
-    selectedService=$(echo "$services" | gum filter) &&
-    clear && docker compose up $selectedService
 }

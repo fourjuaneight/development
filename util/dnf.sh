@@ -5,6 +5,9 @@ dnf check-update
 dnf -y upgrade
 dnf -y autoremove
 
+action "adding zfs repo"
+dnf install -y https://zfsonlinux.org/fedora/zfs-release$(rpm -E %dist).noarch.rpm
+
 echo "installing dependencies"
 dnf -y install ansible \
   apt-transport-https \
@@ -97,6 +100,7 @@ dnf -y install ansible \
   xsel \
   xz \
   xz-utils \
+  zfs \
   zfsutils-linux \
   zsh
 
