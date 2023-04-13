@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 echo "installing Golang Language Server"
-/opt/homebrew/bin/go install github.com/nametake/golangci-lint-langserver@latest
-/opt/homebrew/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
-/opt/homebrew/bin/go install github.com/cweill/gotests/gotests
-/opt/homebrew/bin/go install github.com/fatih/gomodifytags
-/opt/homebrew/bin/go install github.com/josharian/impl
-/opt/homebrew/bin/go install github.com/haya14busa/goplay/cmd/goplay
-/opt/homebrew/bin/go install github.com/go-delve/delve/cmd/dlv
-/opt/homebrew/bin/go install honnef.co/go/tools/cmd/staticcheck
-/opt/homebrew/bin/go install golang.org/x/tools/gopls
-/opt/homebrew/bin/go install github.com/erning/gorun@latest
+/home/linuxbrew/.linuxbrew/bin/go install github.com/nametake/golangci-lint-langserver@latest
+/home/linuxbrew/.linuxbrew/bin/go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
+/home/linuxbrew/.linuxbrew/bin/go install github.com/cweill/gotests/gotests
+/home/linuxbrew/.linuxbrew/bin/go install github.com/fatih/gomodifytags
+/home/linuxbrew/.linuxbrew/bin/go install github.com/josharian/impl
+/home/linuxbrew/.linuxbrew/bin/go install github.com/haya14busa/goplay/cmd/goplay
+/home/linuxbrew/.linuxbrew/bin/go install github.com/go-delve/delve/cmd/dlv
+/home/linuxbrew/.linuxbrew/bin/go install honnef.co/go/tools/cmd/staticcheck
+/home/linuxbrew/.linuxbrew/bin/go install golang.org/x/tools/gopls
+/home/linuxbrew/.linuxbrew/bin/go install github.com/erning/gorun@latest
