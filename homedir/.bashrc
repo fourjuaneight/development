@@ -17,6 +17,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # fnm
 export PATH=$HOME/.fnm:$PATH
 
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
 # Sheldon
 export SHELDON_CONFIG_DIR="$HOME/.config/sheldon"
 export SHELDON_DATA_DIR="$SHELDON_CONFIG_DIR"
