@@ -9,7 +9,7 @@ echo "updating homebrew directories"
 brew update
 
 echo "installing complicated packages"
-brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-xvid --with-fdk-aac --with-libbluray --with-rav1e --with-svt-av1
+brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac
 brew tap helix-editor/helix
 brew install helix
 

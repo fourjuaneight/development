@@ -34,7 +34,6 @@ dnf -y install ansible \
   git \
   git-lfs \
   gnupg \
-  golang \
   gpg \
   graphicsmagick \
   id3v2 \
