@@ -78,6 +78,9 @@ RUN bash npm.sh
 # Install pip packages
 RUN bash pip.sh
 
+# Install Go language servers
+RUN bash go.sh
+
 # Install zsh plugins via sheldon
 USER root
 RUN mkdir /home/node/.config/sheldon/repos
