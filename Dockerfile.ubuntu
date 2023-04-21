@@ -73,10 +73,10 @@ RUN bash fonts.sh
 
 # Install npm global packages
 USER node
-RUN bash npm.sh
+RUN bash node.sh
 
 # Install pip packages
-RUN bash pip.sh
+RUN bash python.sh
 
 # Install Go language servers
 RUN bash go.sh
