@@ -1,6 +1,3 @@
-# ENV
-source "${HOME}/.zshenv"
-
 # History
 HISTSIZE=10000
 SAVEHIST=10000
@@ -14,6 +11,33 @@ setopt hist_verify
 setopt inc_append_history
 setopt share_history # share command history data
 
+# Homebrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# frum
+eval "$(frum init)"
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+# Sheldon
+export SHELDON_CONFIG_DIR="$HOME/.config/sheldon"
+export SHELDON_DATA_DIR="$SHELDON_CONFIG_DIR"
+export SHELDON_CONFIG_FILE="$SHELDON_CONFIG_DIR/plugins.toml"
+export SHELDON_LOCK_FILE="$SHELDON_CONFIG_DIR/plugins.lock"
+export SHELDON_CLONE_DIR="$SHELDON_DATA_DIR/repos"
+export SHELDON_DOWNLOAD_DIR="$SHELDON_DATA_DIR/downloads"
+
+# Starship
+
 # GPG
 export GPG_TTY=$(tty)
 
@@ -21,8 +45,9 @@ export GPG_TTY=$(tty)
 export EDITOR=hx
 eval "$(sheldon source)"
 eval "$(starship init zsh)"
-zsh-defer eval "$(atuin init zsh)"
-zsh-defer eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+eval "$(zoxide init zsh)"
+
 # Rust Cargo
 source "$HOME/.cargo/env"
 
@@ -34,16 +59,19 @@ fi
 # Autosuggestions
 [[ -f ~/.zsh/autosuggestions.zsh ]] && source ~/.zsh/autosuggestions.zsh
 
-# fzf
-[[ -f ~/.zsh/fzf.zsh ]] && source ~/.zsh/fzf.zsh
-
-_fzf_compgen_path() {
-  fd -HL -E ".git" . "$1"
-}
-
 # Aliases
 [[ -f ~/.zsh/aliases.zsh ]] && source ~/.zsh/aliases.zsh
 
 # Functions
 [[ -f ~/.zsh/func.zsh ]] && source ~/.zsh/func.zsh
 zmodload zsh/zprof
+
+# nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# fnm
+export PATH=/home/jvillela/.fnm:$PATH
+eval "`fnm env`"
+
+# SKIM
+export SKIM_DEFAULT_COMMAND="git ls-tree -r --name-only HEAD || rg --files || fd ."

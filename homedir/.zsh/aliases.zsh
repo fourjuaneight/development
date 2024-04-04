@@ -15,6 +15,9 @@ alias dot="z ~/dotfiles"
 # alternative to 'cat'
 alias cat="bat"
 
+# alternative to 'find'
+# alias find="fd"
+
 # alternative to 'rm'
 alias rm="rip -i"
 
@@ -49,12 +52,9 @@ alias vsour="nvim source ~/.vimrc"
 alias croe="crontab -e"
 alias crol="crontab -l"
 
-# zellij
-alias tmux="zellij"
-alias zj="zellij"
-alias zjconf="hx ~/.config/zellij/config.kdl"
-alias zjdev="zellij --layout ~/.config/zellij/layout.dev.kdl"
-alias zjgit="zellij --layout ~/.config/zellij/layout.git.kdl"
+# tmux
+alias tmux="tmux -2"
+alias tconf="hx ~/.config/tmux/tmux.conf"
 
 # ssh
 alias rssh="sudo service ssh --full-restart"
@@ -92,6 +92,7 @@ alias gc="git commit -S"
 alias gf="git fetch"
 
 alias gup="git push"
+alias gupf="git push --force"
 alias gupt="git push --tags"
 
 alias gp="git pull --rebase"
@@ -117,3 +118,13 @@ alias gts="git tag -s"
 alias gtv="git tag | sort -V"
 
 alias ggc="git gc --aggressive --prune"
+
+# Docker
+alias lzd="lazydocker"
+
+# system update
+alias rup="rustup update"
+alias cup="cargo install-update -a"
+alias bup="brew update"
+alias bug="brew upgrade && brew cleanup"
+alias vug="vim +PlugUpgrade +PlugUpdate +qa"

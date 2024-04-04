@@ -1,8 +1,9 @@
+[misc]
 # Don't ask for confirmations
 assume_yes = true
 
 # Disable specific steps - same options as the command line flag
-disable = ["containers", "gem", "ruby_gems", "vim", "system"]
+disable = ["containers", "gem", "mas", "ruby_gems", "vim", "vscode", "system"]
 
 # Ignore failures for these steps
 ignore_failures = ["node"]
@@ -40,10 +41,10 @@ cleanup = true
 [git]
 #max_concurrency = 5
 # Additional git repositories to pull
-#repos = [
-#    "~/src/*/",
-#    "~/.config/something"
-#]
+repos = [
+   "~/dotfiles",
+   "~/tenjin",
+]
 
 # Don't pull the predefined git repos
 #pull_predefined = false
@@ -57,6 +58,7 @@ arguments = "--rebase --autostash"
 # Commands to run before anything
 [pre_commands]
 "npm Version" = "fnm use 16"
+"npm Cleanup" = "find '~/Library/Application Support/fnm/node-versions/v16.13.2/installation/lib/node_modules' -name '.DS_Store' -type f -print -delete || true"
 
 # Custom commands
 [commands]
