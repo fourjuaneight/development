@@ -69,6 +69,8 @@ apt-get install -y \
   mosh \
   ncdu \
   nginx \
+  p7zip-full \
+  p7zip-rar \
   perl \
   pkg-config \
   pandoc \

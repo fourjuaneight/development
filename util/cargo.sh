@@ -17,6 +17,7 @@ cargo install atuin \
   fd-find \
   fnm \
   frum \
+  git-absorb \
   git-cliff \
   git-delta \
   git-interactive-rebase-tool \
