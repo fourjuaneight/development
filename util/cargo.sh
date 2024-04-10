@@ -4,13 +4,15 @@ echo "installing rustup"
 source $HOME/.cargo/env
 rustup toolchain install nightly --allow-downgrade --profile minimal --component clippy
 
+echo "installing autin"
+bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+
 echo "installing rust binaries"
 cargo install --locked bat
 cargo install --locked pueue
 cargo install --locked sheldon
 cargo install --locked starship
-cargo install atuin \
-  bottom \
+cargo install bottom \
   cargo-update \
   coreutils \
   exa \
