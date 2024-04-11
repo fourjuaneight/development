@@ -11,7 +11,6 @@ echo "installing rust binaries"
 cargo install --locked bat
 cargo install --locked pueue
 cargo install --locked sheldon
-cargo install --locked starship
 cargo install bottom \
   cargo-update \
   coreutils \

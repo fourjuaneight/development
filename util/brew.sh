@@ -35,6 +35,7 @@ brew install osv-scanner
 brew install pnpm
 brew install rclone
 brew install restic
+brew install starship
 brew install syncthing
 brew install tpm
 brew install uv
