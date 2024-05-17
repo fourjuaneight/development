@@ -33,7 +33,7 @@ dnf -y install ansible \
   gist \
   git \
   git-lfs \
-  gnupg \
+  gnupg2 \
   gpg \
   graphicsmagick \
   id3v2 \
@@ -80,6 +80,7 @@ dnf -y install ansible \
   php-mysqlnd \
   php-phpseclib-net-ssh2 \
   php-pecl-ssh2 \
+  pinentry-curses \
   poppler \
   poppler-utils \
   postgresql \

@@ -65,7 +65,7 @@
   diffFilter = delta --color-only
 
 [gpg]
-  program = gpg
+  program = gpg2
 
 [sequence]
   editor = interactive-rebase-tool

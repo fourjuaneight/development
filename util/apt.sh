@@ -28,7 +28,7 @@ apt-get install -y \
   gist \
   git \
   git-lfs \
-  gnupg \
+  gnupg2 \
   gpg \
   graphicsmagick \
   httpd \
@@ -88,6 +88,7 @@ apt-get install -y \
   php-phpseclib-net-ssh2 \
   php-xml \
   php-zip \
+  pinentry-curses \
   pngquant \
   poppler-utils \
   postgresql \
